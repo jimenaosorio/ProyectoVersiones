@@ -11,6 +11,11 @@ public class Vendedor {
     private String login;
     private String password;
     private ArrayList<Cliente> clientes;
+    private ArrayList<Pedido> pedidos;
+
+    public Vendedor(){
+        pedidos=new ArrayList<Pedido>();
+    }
 
     //Getter y Setter de los atributos
 
@@ -47,106 +52,105 @@ public class Vendedor {
         this.password = password;
     }
 
+    //Solo devuelve los clientes que no se han eliminado
     public ArrayList<Cliente> getClientes() {
-        return clientes;
+        ArrayList<Cliente> activos=new ArrayList<Cliente>();
+        int tam=clientes.size();
+        for(int i=0;i<tam;i++){
+            if(clientes.get(i).isActivo()){
+                activos.add(clientes.get(i));
+            }
+        }
+        return activos;
     }
 
     public void setClientes(ArrayList<Cliente> clientes) {
         this.clientes = clientes;
     }
 
-    //Lista de los vendedores
-    public ArrayList<Vendedor> listaVendedores(){
-        Vendedor vendedor=new Vendedor();
-        ArrayList<Vendedor> listaVendedores=new ArrayList<Vendedor>();
-        //Vendedor 1
-        vendedor.setIdVendedor(1);
-        vendedor.setNombre("Ana Rosales");
-        vendedor.setLogin("arosales");
-        vendedor.setPassword("1234");
-        //Clientes para el vendedor 1
-        ArrayList<Cliente> listaClientes=new ArrayList<Cliente>();
-        Cliente cliente=new Cliente();
-        cliente.setIdCliente(100);
-        cliente.setNombre("Kiosco Barria");
-        cliente.setDireccion("Prat 333");
-        cliente.setTelefono("22334455");
-        listaClientes.add(cliente);
-        cliente=new Cliente();
-        cliente.setIdCliente(101);
-        cliente.setNombre("Almacen Flores");
-        cliente.setDireccion("San Diego 444");
-        cliente.setTelefono("22112211");
-        listaClientes.add(cliente);
-        //Agrego la lista de clientes al vendedor
-        vendedor.setClientes(listaClientes);
-        //Agrego el vendedor a la lista de vendedores
-        listaVendedores.add(vendedor);
-
-        //Vendedor 2
-        vendedor=new Vendedor();
-        vendedor.setIdVendedor(2);
-        vendedor.setNombre("Pedro Soto");
-        vendedor.setLogin("psoto");
-        vendedor.setPassword("1234");
-        //Clientes para el vendedor 2
-        listaClientes=new ArrayList<Cliente>();
-        cliente=new Cliente();
-        cliente.setIdCliente(200);
-        cliente.setNombre("Almacen Bulnes");
-        cliente.setDireccion("Bulnes 567");
-        cliente.setTelefono("22004400");
-        listaClientes.add(cliente);
-        cliente=new Cliente();
-        cliente.setIdCliente(201);
-        cliente.setNombre("Kiosco Carlitos");
-        cliente.setDireccion("Portugal 987");
-        cliente.setTelefono("22446688");
-        listaClientes.add(cliente);
-        //Agrego la lista de clientes al vendedor
-        vendedor.setClientes(listaClientes);
-        //Agrego el vendedor a la lista de vendedores
-        listaVendedores.add(vendedor);
-
-        return listaVendedores;
-
-
-    }
-    //Validar login y password
-    public int validarLogin(String login, String password){
-        Vendedor vendedor;
-        ArrayList<Vendedor> vendedores=listaVendedores();
-        int tam=vendedores.size();
-        for(int i=0;i<tam;i++){     //recorrer la lista de vendedores
-            vendedor=vendedores.get(i);
-            if(vendedor.getLogin().equals(login) && vendedor.getPassword().equals(password)){ //El login y la password coinciden
-                return vendedor.getIdVendedor();
+    //Solo devuelve los pedidos que no se han entregado
+    public ArrayList<Pedido> getPedidos() {
+        ArrayList<Pedido> pendientes=new ArrayList<Pedido>();
+        int tam=pedidos.size();
+        for(int i=0;i<tam;i++){
+            if(!pedidos.get(i).isEntregado()){
+                pendientes.add(pedidos.get(i));
             }
         }
-
-
-        return 0; //Si no lo encuentra
-    }
-    //Devolver un vendedor
-    public Vendedor getVendedor(int id){
-        Vendedor vendedor=null;
-        ArrayList<Vendedor> vendedores=listaVendedores();
-        int tam=vendedores.size();
-        for(int i=0;i<tam;i++) {     //recorrer la lista de vendedores
-            vendedor = vendedores.get(i);
-            if(vendedor.getIdVendedor()==id)
-                return vendedor;
-        }
-        return null;
+        return pendientes;
     }
 
-
-    // Sobreescribir toString
-
+    public void setPedidos(ArrayList<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
 
     @Override
     public String toString() {
         return "Vendedor [" + idVendedor + "]: " + nombre + "(" + login + ")";
+    }
+
+    //Agregar un cliente a la lista
+
+    public void addCliente(Cliente c){
+        clientes.add(c);
+    }
+
+    //Eliminar un cliente
+    public void dropCliente(int idCliente){
+        int tam=clientes.size();
+        Cliente c;
+        for(int i=0;i<tam;i++){
+            c=clientes.get(i);
+            if(c.getIdCliente()==idCliente){
+                c.setActivo(false);
+            }
+        }
+
+    }
+
+    //Modificar un cliente
+    public void alterCliente(int id, String nuevoNombre, String nuevaDir, String nuevoFono){
+        int tam=clientes.size();
+        Cliente c;
+        for(int i=0;i<tam;i++){
+            c=clientes.get(i);
+            if(c.getIdCliente()==id){
+                if(nuevoNombre.compareTo("")!=0)c.setNombre(nuevoNombre);
+                if(nuevaDir.compareTo("")!=0)c.setDireccion(nuevaDir);
+                if(nuevoFono.compareTo("")!=0)c.setTelefono(nuevoFono);
+            }
+        }
+    }
+
+    //Buscar un cliente de la lista
+    public Cliente getCliente(int id){
+        int tam=clientes.size();
+        Cliente c;
+        for(int i=0;i<tam;i++){
+            c=clientes.get(i);
+            if(c.getIdCliente()==id){
+                return c;
+            }
+        }
+        return null;
+    }
+
+    //Agregar un pedido a la lista
+    public void addPedido(Pedido pedido){
+        pedidos.add(pedido);
+    }
+
+    //Devolver un pedido
+    public Pedido getPedido(int idPedido){
+        Pedido pedido;
+        int tam=pedidos.size();
+        for(int i=0;i<tam;i++){
+            pedido=pedidos.get(i);
+            if(pedido.getIdPedido()==idPedido){
+                return pedido;
+            }
+        }
+        return null;
     }
 
 

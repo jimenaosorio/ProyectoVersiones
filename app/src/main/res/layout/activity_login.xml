@@ -21,31 +21,30 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Usuario"
+        android:text="Login"
         android:id="@+id/textView2"
-        android:layout_marginTop="81dp"
         android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Contraseña"
         android:id="@+id/textView3"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2" />
+        android:layout_below="@+id/txtLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="57dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtUsuario"
+        android:id="@+id/txtLogin"
         android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
         android:layout_alignRight="@+id/txtPassword"
-        android:layout_alignEnd="@+id/txtPassword" />
+        android:layout_alignEnd="@+id/txtPassword"
+        android:layout_alignLeft="@+id/txtPassword"
+        android:layout_alignStart="@+id/txtPassword" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -53,9 +52,8 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/txtPassword"
-        android:layout_below="@+id/textView3"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -64,7 +62,5 @@
         android:id="@+id/cmdIngresar"
         android:layout_below="@+id/txtPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp" />
-
+        android:layout_marginTop="72dp" />
 </RelativeLayout>
-

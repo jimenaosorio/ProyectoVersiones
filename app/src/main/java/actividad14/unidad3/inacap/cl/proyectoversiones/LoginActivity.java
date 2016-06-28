@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import clases.ListaVendedores;
 import clases.Vendedor;
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,23 +29,25 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
     }
+    //Método para validar login y password del vendedor
     //Método para validar login y password del vendedor
     public void validarLoginVendedor(){
         //Recuperar el login y password escritos en el formulario
-        EditText txtLogin=(EditText)findViewById(R.id.txtUsuario);
+        EditText txtLogin=(EditText)findViewById(R.id.txtLogin);
         EditText txtPassword=(EditText)findViewById(R.id.txtPassword);
 
         //Validar el login y la passsword
-        Vendedor vendedor=new Vendedor();
-        int idV=vendedor.validarLogin(txtLogin.getText().toString(),txtPassword.getText().toString());
+        ListaVendedores vendedores= ListaVendedores.getInstancia();
+        int idV=vendedores.validarLogin(txtLogin.getText().toString(),txtPassword.getText().toString());
         if(idV!=0){
             //El usuario y contraseña son correctos, redirecciona
             Toast.makeText(LoginActivity.this, "Usuario correcto ID="+String.valueOf(idV), Toast.LENGTH_SHORT).show();
             txtLogin.setText("");
             txtPassword.setText("");
 
-            Intent intent=new Intent(LoginActivity.this, ListaClientesActivity.class);
+            Intent intent=new Intent(LoginActivity.this, MenuActivity.class);
             intent.putExtra("id_vendedor",String.valueOf(idV)); //pasar el id del vendedor al otro activity
             LoginActivity.this.startActivity(intent);
 
@@ -53,5 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Usuario y/o contraseña incorrectos",Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
 }

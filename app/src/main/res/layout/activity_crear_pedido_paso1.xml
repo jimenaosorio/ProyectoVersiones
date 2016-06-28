@@ -7,53 +7,53 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.ListaClientesActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Bienvenido"
-        android:id="@+id/txtVendedor"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
+    tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.CrearPedidoPaso1Activity">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/txtVendedor"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="41dp">
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Paso 1: Cliente"
+            android:id="@+id/textView17"
+            android:layout_gravity="center_horizontal" />
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="127dp"
-            android:id="@+id/lvClientes"
+            android:layout_height="148dp"
+            android:id="@+id/lvClientesPedido"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.04"
             android:background="@color/accent_material_light" />
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Agregar un Cliente"
-            android:id="@+id/cmdAgregarCliente"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Ingrese el ID del cliente:"
+            android:id="@+id/textView18"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtIdClientePedido"
             android:layout_gravity="center_horizontal" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Eliminar un Cliente"
-            android:id="@+id/cmdEliminar"
+            android:text="Siguiente"
+            android:id="@+id/cmdSiguiente1"
             android:layout_gravity="center_horizontal" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Modificar un cliente"
-            android:id="@+id/cmdModificar"
-            android:layout_gravity="center_horizontal" />
-
     </LinearLayout>
 
 </RelativeLayout>

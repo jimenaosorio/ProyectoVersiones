@@ -9,16 +9,21 @@ public class Cliente {
     private String nombre;
     private String direccion;
     private String telefono;
+    private boolean activo=true;
+    private static int cuenta=300; //para generar un ID automático
 
-    //Getter y Setter de cada atributo
+    public Cliente(){
+        cuenta++;
+        idCliente=cuenta;
+    }
+
+    //Getter y Setter de cada atributo (menos id_cliente que no tiene setter
+
 
     public int getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
-    }
 
     public String getNombre() {
         return nombre;
@@ -42,6 +47,14 @@ public class Cliente {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     @Override

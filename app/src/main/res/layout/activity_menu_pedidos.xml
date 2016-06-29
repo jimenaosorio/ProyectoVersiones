@@ -8,42 +8,51 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
 
+
     tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.MenuPedidosActivity">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Menú Pedidos"
-        android:id="@+id/textView16"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Crear Pedido"
-        android:id="@+id/cmdCrearPedido"
-        android:layout_marginTop="53dp"
-        android:layout_below="@+id/textView16"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingresar Pedido"
+            android:id="@+id/cmdIngresarPedido"
+            android:layout_alignBaseline="@+id/cmdRegistrarEntrega"
+            android:layout_alignBottom="@+id/cmdRegistrarEntrega"
+            android:layout_alignRight="@+id/cmdRegistrarEntrega"
+            android:layout_alignEnd="@+id/cmdRegistrarEntrega"
+            android:layout_gravity="center_horizontal" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Registrar Entrega"
-        android:id="@+id/cmdVerPedidos"
-        android:layout_below="@+id/cmdCrearPedido"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registrar Entrega"
+            android:id="@+id/cmdRegistrarEntrega"
+            android:layout_alignBaseline="@+id/cmdResumenDeCaja"
+            android:layout_alignBottom="@+id/cmdResumenDeCaja"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="volver"
-        android:id="@+id/cmdVolverAlMenu"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/cmdVerPedidos"
-        android:layout_toEndOf="@+id/cmdVerPedidos"
-        android:layout_marginBottom="37dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resumen de Caja"
+            android:id="@+id/cmdResumenDeCaja"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/cmdRegistrarEntrega"
+            android:layout_alignEnd="@+id/cmdRegistrarEntrega"
+            android:layout_marginBottom="144dp"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Volver"
+            android:id="@+id/cmdVolver2"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
 
 </RelativeLayout>

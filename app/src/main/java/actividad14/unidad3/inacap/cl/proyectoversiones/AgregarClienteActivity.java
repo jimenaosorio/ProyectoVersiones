@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import clases.Cliente;
@@ -13,52 +14,49 @@ import clases.ListaVendedores;
 import clases.Vendedor;
 
 public class AgregarClienteActivity extends AppCompatActivity {
-
+    private String idVendedorStr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_cliente);
-        //Crear el botón
-        Button cmdAgregarCliente=(Button)findViewById(R.id.cmdAgregarCliente);
-        cmdAgregarCliente.setOnClickListener(new View.OnClickListener() {
+
+        //Recoger el id desde el LoginActivity
+        Bundle extras=getIntent().getExtras();
+        idVendedorStr=extras.getString("id_vendedor");
+        Button cmdIngresarClienteNuevo=(Button)findViewById(R.id.cmdIngresarClienteNuevo);
+        cmdIngresarClienteNuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                agregarClienteNuevo();
+                guardarCliente();
             }
         });
 
+
     }
-    public void agregarClienteNuevo(){
-        //Recuperar los datos de los textbox
+    public void guardarCliente(){
+        int idVendedor=Integer.parseInt(idVendedorStr);
+        //Buscar el vendedor
+        ListaVendedores listaVendedores= ListaVendedores.getInstancia();
+        Vendedor vendedor=listaVendedores.getVendedor(idVendedor);
 
-        EditText txtNombreClienteNuevo=(EditText)findViewById(R.id.txtNombreClienteNuevo);
-        EditText txtDireccionClienteNuevo=(EditText)findViewById(R.id.txtDireccionClienteNuevo);
-        EditText txtTelefonoClienteNuevo=(EditText) findViewById(R.id.txtTelefonoClienteNuevo);
 
-
-        //Recuperar el vendedor
-        Bundle extras=getIntent().getExtras();
-        String id_vendedor_string=extras.getString("id_ven");
-        int idVendedor=0;
-        try {
-            idVendedor = Integer.parseInt(id_vendedor_string);
-        }catch(NumberFormatException e){
-            Toast.makeText(AgregarClienteActivity.this,"id vendedor incorrecto",Toast.LENGTH_SHORT).show();
-        }
-        //Crear el cliente
+        //Leer el cliente nuevo y guardarlo en la lista
+        TextView txtClienteNombreNuevo=(TextView)findViewById(R.id.txtClienteNombreNuevo);
+        TextView txtClienteDireccionNueva=(TextView)findViewById(R.id.txtClienteDireccionNueva);
+        TextView txtTelefonoNuevo=(TextView)findViewById(R.id.txtClienteTelefonoNuevo);
+        String nombre=txtClienteNombreNuevo.getText().toString();
+        String direccion=txtClienteDireccionNueva.getText().toString();
+        String telefono=txtTelefonoNuevo.getText().toString();
         Cliente cliente=new Cliente();
-        cliente.setNombre(txtNombreClienteNuevo.getText().toString());
-        cliente.setDireccion(txtDireccionClienteNuevo.getText().toString());
-        cliente.setTelefono(txtTelefonoClienteNuevo.getText().toString());
+        cliente.setNombre(nombre);
+        cliente.setDireccion(direccion);
+        cliente.setTelefono(telefono);
         cliente.setActivo(true);
-        //Agregar el cliente a la lista del vendedor
-        ListaVendedores listaV=ListaVendedores.getInstancia();
-        Vendedor vendedor=listaV.getVendedor(idVendedor);
         vendedor.addCliente(cliente);
-        //Volver a la lista de clientes
-        Toast.makeText(AgregarClienteActivity.this,"Cliente ingresado",Toast.LENGTH_SHORT).show();
+
+        //Devolver el id vendedor y volver al menú de clientes
         Intent intent=new Intent(AgregarClienteActivity.this,ListaClientesActivity.class);
-        intent.putExtra("id_vendedor",id_vendedor_string);
+        intent.putExtra("id_vendedor",idVendedorStr);
         AgregarClienteActivity.this.startActivity(intent);
 
     }

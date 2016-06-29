@@ -69,4 +69,5 @@ public class Pedido {
         return "["+idPedido+"]: "+cliente.getNombre()+", "+fechaEntrega+", valor: $"+precio;
     }
 
+
 }

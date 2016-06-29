@@ -12,6 +12,9 @@ public class Vendedor {
     private String password;
     private ArrayList<Cliente> clientes;
     private ArrayList<Pedido> pedidos;
+    private int montoPedidos=0;
+    private int montoCobrado=0;
+    private int saldo=0;
 
     public Vendedor(){
         pedidos=new ArrayList<Pedido>();
@@ -19,6 +22,18 @@ public class Vendedor {
 
     //Getter y Setter de los atributos
 
+
+    public int getMontoPedidos() {
+        return montoPedidos;
+    }
+
+    public int getMontoCobrado() {
+        return montoCobrado;
+    }
+
+    public int getSaldo() {
+        return saldo;
+    }
 
     public int getIdVendedor() {
         return idVendedor;
@@ -79,6 +94,17 @@ public class Vendedor {
         }
         return pendientes;
     }
+    //Devolver la lista de pedidos entregados
+    public ArrayList<Pedido> getEntregas(){
+        ArrayList<Pedido> entregados=new ArrayList<Pedido>();
+        int tam=pedidos.size();
+        for(int i=0;i<tam;i++){
+            if(pedidos.get(i).isEntregado()){
+                entregados.add(pedidos.get(i));
+            }
+        }
+        return entregados;
+    }
 
     public void setPedidos(ArrayList<Pedido> pedidos) {
         this.pedidos = pedidos;
@@ -137,10 +163,20 @@ public class Vendedor {
 
     //Agregar un pedido a la lista
     public void addPedido(Pedido pedido){
+
         pedidos.add(pedido);
+        montoPedidos=montoPedidos+pedido.getPrecio();
+        saldo=montoPedidos-montoCobrado;
+    }
+    //Hacer una entrega
+    public void hacerEntrega(int idPedido){
+        Pedido pedido=getPedido(idPedido);
+        pedido.setEntregado(true);
+        montoCobrado=montoCobrado+pedido.getPrecio();
+        saldo=montoPedidos-montoCobrado;
     }
 
-    //Devolver un pedido
+    //Buscar un pedido
     public Pedido getPedido(int idPedido){
         Pedido pedido;
         int tam=pedidos.size();

@@ -20,8 +20,8 @@ public class ListaVendedores {
         Vendedor vendedor=new Vendedor();
         vendedor.setIdVendedor(1);
         vendedor.setNombre("Ana Rosales");
-        vendedor.setLogin("arosales");
-        vendedor.setPassword("1234");
+        vendedor.setLogin("arosales@productosfrescos.com");
+        vendedor.setPassword("arosales1234");
         //Clientes para el vendedor 1
         ArrayList<Cliente> listaClientes=new ArrayList<Cliente>();
         Cliente cliente=new Cliente();
@@ -43,8 +43,8 @@ public class ListaVendedores {
         vendedor=new Vendedor();
         vendedor.setIdVendedor(2);
         vendedor.setNombre("Pedro Soto");
-        vendedor.setLogin("psoto");
-        vendedor.setPassword("1234");
+        vendedor.setLogin("psoto@productosfrescos.com");
+        vendedor.setPassword("psoto1234");
         //Clientes para el vendedor 2
         listaClientes=new ArrayList<Cliente>();
         cliente=new Cliente();
@@ -97,6 +97,20 @@ public class ListaVendedores {
                 return vendedor;
         }
         return null;
+    }
+
+    public String[] getUsuariosYPasswords(){
+        int tam=listaVendedores.size();
+        String[] lista=new String[tam];
+        String item;
+        String usuario, pass;
+        for(int i=0;i<tam;i++){
+            usuario=listaVendedores.get(i).getLogin();
+            pass=listaVendedores.get(i).getPassword();
+            item=usuario+":"+pass;
+            lista[i]=item;
+        }
+        return lista;
     }
 
 

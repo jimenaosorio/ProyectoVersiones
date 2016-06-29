@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,282 +25,138 @@ import clases.Producto;
 import clases.Vendedor;
 
 public class CrearPedidoPaso3Activity extends AppCompatActivity {
-    private String idVendedorString;
-    private String idClienteString;
+    private String idVendedorStr;
+    private int idCliente;
     private String fechaEntrega;
-    private ArrayAdapter<Producto> adapter;
+    private ArrayList<Producto> productos;
+    private ArrayList<CheckBox> casillas;
+    private ArrayList<EditText> cantidades;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_pedido_paso3);
-        //ListView de productos
-        ListView lvProductosPedidos=(ListView) findViewById(R.id.lvProductosPedido);
+        //Recuperar los datos que vienen
+        Bundle extras=getIntent().getExtras();
+        idVendedorStr=extras.getString("id_vendedor");
+        idCliente=extras.getInt("id_cliente");
+        fechaEntrega=extras.getString("fecha_entrega");
+
+        //Tabla de productos
+        TableLayout tlDetalles=(TableLayout)findViewById(R.id.tlDetalles);
+
+        //Recuperar la lista de productos
         ListaProductos listaProductos=ListaProductos.getInstancia();
-        ArrayList<Producto> productos=(ArrayList<Producto>) listaProductos.getListaProductos();
+        productos=(ArrayList<Producto>) listaProductos.getListaProductos();
+        int tam=productos.size();
+        Producto producto;
 
-        if(productos!=null){
-            adapter=new ArrayAdapter<Producto>(getApplicationContext(),android.R.layout.simple_spinner_item,productos);
-            lvProductosPedidos.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        }
-        else{
-            Toast.makeText(CrearPedidoPaso3Activity.this,"Lista de productos vacía",Toast.LENGTH_SHORT).show();
-        }
+        //ArrayList para acceder a los datos
+        casillas=new ArrayList<CheckBox>();
 
-        //Botón ingresar pedido
-        Button cmdIngresarPedido=(Button) findViewById(R.id.cmdIngresarPedido);
-        cmdIngresarPedido.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ingresarPedido();
+        //  ArrayList para acceder a los checkbox
+        cantidades=new ArrayList<EditText>();
+
+        //Recorrer la lista de productos
+        if(productos!=null) {
+            //Encabezados
+            TableRow encabezado=new TableRow(this);
+            TextView seleccione=new TextView(this);
+            seleccione.setText("Seleccione  ");
+            encabezado.addView(seleccione);
+            TextView prod=new TextView(this);
+            prod.setText("  Producto  ");
+            encabezado.addView(prod);
+            TextView cant=new TextView(this);
+            cant.setText("  Cantidad");
+            encabezado.addView(cant);
+            tlDetalles.addView(encabezado);
+
+            for (int i = 0; i < tam; i++) {
+                //Leo el producto
+                producto=productos.get(i);
+                //Creo la fila de la tabla
+                TableRow fila=new TableRow(this);
+                //Checkbox
+                CheckBox chkb=new CheckBox(this);
+                chkb.setId(producto.getCodigo());
+                fila.addView(chkb);
+                casillas.add(chkb);
+                //Producto
+                TextView txtProducto=new TextView(this);
+                txtProducto.setText(producto.toString());
+                fila.addView(txtProducto);
+                //Cantidades
+                EditText cantidad=new EditText(this);
+                cantidad.setId(producto.getCodigo());
+                fila.addView(cantidad);
+                cantidades.add(cantidad);
+
+                tlDetalles.addView(fila);
+
             }
-        });
+            final Button cmdIngresarPedido=(Button) findViewById(R.id.cmdIngresarPedido);
+            cmdIngresarPedido.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ingresarPedido();
+                }
+            });
+        }
+
+
 
     }
     //Listener para el botón ingresar pedido
     public void ingresarPedido(){
-        //Leer cada textbox, calcular el total por línea y sumar el total
-        int cod1=0, cod2=0, cod3=0, cod4=0, cod5=0;
-        int cant1=0, cant2=0, cant3=0, cant4=0, cant5=0;
-        int totalLinea=0, totalPedido=0;
-        ListaProductos listaProductos=ListaProductos.getInstancia();
-        DetallePedido detallePedido;
-        Pedido pedido=new Pedido();
-        ArrayList<DetallePedido> detalles=new ArrayList<DetallePedido>();
-
-        //Producto 1
-        EditText txtProducto1=(EditText) findViewById(R.id.txtProducto1);
-        String cod1Str=txtProducto1.getText().toString();
-        EditText txtCantidad1=(EditText) findViewById(R.id.txtCantidad1);
-        String cant1Str=txtCantidad1.getText().toString();
-        if(cod1Str.compareTo("")!=0 && cant1Str.compareTo("")!=0) { //Si los textbox tienen datos
-            try {
-                cod1 = Integer.parseInt(cod1Str);  //transformar a entero
-            } catch (NumberFormatException e) {
-                Toast.makeText(CrearPedidoPaso3Activity.this, "Codigo incorrecto", Toast.LENGTH_SHORT).show();
-            }
-            //Ver si el producto existe
-            Producto p1=listaProductos.buscarProducto(cod1);
-            if(p1==null){
-                Toast.makeText(CrearPedidoPaso3Activity.this,"El código no existe",Toast.LENGTH_SHORT).show();
-            }else {
-                //Verificar la cantidad
-                try{
-                    cant1=Integer.parseInt(cant1Str);
-                }catch (NumberFormatException e){
-                    Toast.makeText(CrearPedidoPaso3Activity.this, "Cantidad incorrecta", Toast.LENGTH_SHORT).show();
-                }
-                //Calcular el total linea
-                totalLinea=p1.getPrecio()*cant1;
-
-                //Sumar
-                totalPedido=totalPedido+totalLinea;
-
-                //Crear el detalle del pedido con el producto y la cantidad
-                detallePedido=new DetallePedido();
-                detallePedido.setProducto(p1);
-                detallePedido.setCantidad(cant1);
-
-                //Agregar el detalle a la lista
-                detalles.add(detallePedido);
-            }
-        } //fin del if del producto
-
-        //Producto 2
-        EditText txtProducto2=(EditText) findViewById(R.id.txtProducto2);
-        String cod2Str=txtProducto2.getText().toString();
-        EditText txtCantidad2=(EditText) findViewById(R.id.txtCantidad2);
-        String cant2Str=txtCantidad2.getText().toString();
-        if(cod2Str.compareTo("")!=0 && cant2Str.compareTo("")!=0) { //Si los textbox tienen datos
-            try {
-                cod2 = Integer.parseInt(cod2Str);  //transformar a entero
-            } catch (NumberFormatException e) {
-                Toast.makeText(CrearPedidoPaso3Activity.this, "Codigo incorrecto", Toast.LENGTH_SHORT).show();
-            }
-            //Ver si el producto existe
-            Producto p2=listaProductos.buscarProducto(cod2);
-            if(p2==null){
-                Toast.makeText(CrearPedidoPaso3Activity.this,"El código no existe",Toast.LENGTH_SHORT).show();
-            }else {
-                //Verificar la cantidad
-                try{
-                    cant2=Integer.parseInt(cant2Str);
-                }catch (NumberFormatException e){
-                    Toast.makeText(CrearPedidoPaso3Activity.this, "Cantidad incorrecta", Toast.LENGTH_SHORT).show();
-                }
-                //Calcular el total linea
-                totalLinea=p2.getPrecio()*cant2;
-
-                //Sumar
-                totalPedido=totalPedido+totalLinea;
-
-                //Crear el detalle del pedido con el producto y la cantidad
-                detallePedido=new DetallePedido();
-                detallePedido.setProducto(p2);
-                detallePedido.setCantidad(cant2);
-
-                //Agregar el detalle a la lista
-                detalles.add(detallePedido);
-
-            }
-        } //fin del if del producto
-
-        //Producto 3
-        EditText txtProducto3=(EditText) findViewById(R.id.txtProducto3);
-        String cod3Str=txtProducto3.getText().toString();
-        EditText txtCantidad3=(EditText) findViewById(R.id.txtCantidad3);
-        String cant3Str=txtCantidad3.getText().toString();
-        if(cod3Str.compareTo("")!=0 && cant3Str.compareTo("")!=0) { //Si los textbox tienen datos
-            try {
-                cod3 = Integer.parseInt(cod3Str);  //transformar a entero
-            } catch (NumberFormatException e) {
-                Toast.makeText(CrearPedidoPaso3Activity.this, "Codigo incorrecto", Toast.LENGTH_SHORT).show();
-            }
-            //Ver si el producto existe
-            Producto p3=listaProductos.buscarProducto(cod3);
-            if(p3==null){
-                Toast.makeText(CrearPedidoPaso3Activity.this,"El código no existe",Toast.LENGTH_SHORT).show();
-            }else {
-                //Verificar la cantidad
-                try{
-                    cant3=Integer.parseInt(cant3Str);
-                }catch (NumberFormatException e){
-                    Toast.makeText(CrearPedidoPaso3Activity.this, "Cantidad incorrecta", Toast.LENGTH_SHORT).show();
-                }
-                //Calcular el total linea
-                totalLinea=p3.getPrecio()*cant3;
-
-                //Sumar
-                totalPedido=totalPedido+totalLinea;
-
-                //Crear el detalle del pedido con el producto y la cantidad
-                detallePedido=new DetallePedido();
-                detallePedido.setProducto(p3);
-                detallePedido.setCantidad(cant3);
-
-                //Agregar el detalle a la lista
-                detalles.add(detallePedido);
-
-            }
-        } //fin del if del producto
-
-        //Producto 4
-        EditText txtProducto4=(EditText) findViewById(R.id.txtProducto4);
-        String cod4Str=txtProducto4.getText().toString();
-        EditText txtCantidad4=(EditText) findViewById(R.id.txtCantidad4);
-        String cant4Str=txtCantidad4.getText().toString();
-        if(cod4Str.compareTo("")!=0 && cant4Str.compareTo("")!=0) { //Si los textbox tienen datos
-            try {
-                cod4 = Integer.parseInt(cod4Str);  //transformar a entero
-            } catch (NumberFormatException e) {
-                Toast.makeText(CrearPedidoPaso3Activity.this, "Codigo incorrecto", Toast.LENGTH_SHORT).show();
-            }
-            //Ver si el producto existe
-            Producto p4=listaProductos.buscarProducto(cod4);
-            if(p4==null){
-                Toast.makeText(CrearPedidoPaso3Activity.this,"El código no existe",Toast.LENGTH_SHORT).show();
-            }else {
-                //Verificar la cantidad
-                try{
-                    cant4=Integer.parseInt(cant4Str);
-                }catch (NumberFormatException e){
-                    Toast.makeText(CrearPedidoPaso3Activity.this, "Cantidad incorrecta", Toast.LENGTH_SHORT).show();
-                }
-                //Calcular el total linea
-                totalLinea=p4.getPrecio()*cant4;
-
-                //Sumar
-                totalPedido=totalPedido+totalLinea;
-
-                //Crear el detalle del pedido con el producto y la cantidad
-                detallePedido=new DetallePedido();
-                detallePedido.setProducto(p4);
-                detallePedido.setCantidad(cant4);
-
-                //Agregar el detalle a la lista
-                detalles.add(detallePedido);
-
-            }
-        } //fin del if del producto
-
-        //Producto 5
-        EditText txtProducto5=(EditText) findViewById(R.id.txtProducto5);
-        String cod5Str=txtProducto5.getText().toString();
-        EditText txtCantidad5=(EditText) findViewById(R.id.txtCantidad5);
-        String cant5Str=txtCantidad5.getText().toString();
-        if(cod5Str.compareTo("")!=0 && cant5Str.compareTo("")!=0) { //Si los textbox tienen datos
-            try {
-                cod5 = Integer.parseInt(cod5Str);  //transformar a entero
-            } catch (NumberFormatException e) {
-                Toast.makeText(CrearPedidoPaso3Activity.this, "Codigo incorrecto", Toast.LENGTH_SHORT).show();
-            }
-            //Ver si el producto existe
-            Producto p5=listaProductos.buscarProducto(cod5);
-            if(p5==null){
-                Toast.makeText(CrearPedidoPaso3Activity.this,"El código no existe",Toast.LENGTH_SHORT).show();
-            }else {
-                //Verificar la cantidad
-                try{
-                    cant5=Integer.parseInt(cant5Str);
-                }catch (NumberFormatException e){
-                    Toast.makeText(CrearPedidoPaso3Activity.this, "Cantidad incorrecta", Toast.LENGTH_SHORT).show();
-                }
-                //Calcular el total linea
-                totalLinea=p5.getPrecio()*cant5;
-
-                //Sumar
-                totalPedido=totalPedido+totalLinea;
-
-                //Crear el detalle del pedido con el producto y la cantidad
-                detallePedido=new DetallePedido();
-                detallePedido.setProducto(p5);
-                detallePedido.setCantidad(cant5);
-
-                //Agregar el detalle a la lista
-                detalles.add(detallePedido);
-
-            }
-        } //fin del if del producto
-
-        // Armar el pedido
-        //Recuperar lo que viene de antes
-        Bundle extras=getIntent().getExtras();
-
-        //Vendedor
-        idVendedorString=extras.getString("id_vendedor");
-        int idVendedor=Integer.parseInt(idVendedorString);
-
-        ListaVendedores listaVendedores= ListaVendedores.getInstancia();
+        //Recupero el vendedor
+        int idVendedor=Integer.parseInt(idVendedorStr);
+        ListaVendedores listaVendedores=ListaVendedores.getInstancia();
         Vendedor vendedor=listaVendedores.getVendedor(idVendedor);
 
-
-        //Cliente
-        idClienteString=extras.getString("id_cliente");
-        int idCliente=Integer.parseInt(idClienteString);
+        //Leer la tabla y armar el detalle
+        int totalLinea=0, totalPedido=0;
+        DetallePedido detallePedido;
+        ArrayList<DetallePedido> detalles=new ArrayList<DetallePedido>();
+        int tam=productos.size();
+        for(int i=0;i<tam;i++){
+            CheckBox casilla=(CheckBox)casillas.get(i);
+            if(casilla.isChecked()){
+                detallePedido=new DetallePedido();
+                Producto p=productos.get(i);
+                int precio=p.getPrecio();
+                EditText txtCant=(EditText)cantidades.get(i);
+                int cant=0;
+                try {
+                    cant = Integer.parseInt(txtCant.getText().toString());
+                }catch (NumberFormatException e){
+                    Toast.makeText(CrearPedidoPaso3Activity.this,"Formato de cantidad incorrecto",Toast.LENGTH_SHORT).show();
+                }
+                totalLinea=precio*cant;
+                totalPedido=totalPedido+totalLinea;
+                detallePedido.setProducto(p);
+                detallePedido.setCantidad(cant);
+                detalles.add(detallePedido);
+            } //fin if
+        } //fin for
+        //Armar el pedido
+        Pedido pedido=new Pedido();
+        //Agregar el cliente
         Cliente cliente=vendedor.getCliente(idCliente);
         pedido.setCliente(cliente);
-
         //Detalles
         pedido.setDetalles(detalles);
-
-
-        //fecha de entrega
-        fechaEntrega=extras.getString("fecha_entrega");
+        //Fecha de entrega
         pedido.setFechaEntrega(fechaEntrega);
-
-        //precio
+        //Precio
         pedido.setPrecio(totalPedido);
-
-
         //Agregar el pedido al vendedor
         vendedor.addPedido(pedido);
 
-
-        //Mostrar mensaje y volver al menú
-        Toast.makeText(CrearPedidoPaso3Activity.this,"Pedido ingresado, vendedor:"+vendedor.getNombre()+", cliente: "+cliente.getNombre()+", total: $"+pedido.getPrecio(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(CrearPedidoPaso3Activity.this,"Pedido ingresado, cliente: "+pedido.getCliente().getNombre()+", fecha de entrega: "+pedido.getFechaEntrega()+", Total: $"+pedido.getPrecio(),Toast.LENGTH_SHORT).show();
         Intent intent=new Intent(CrearPedidoPaso3Activity.this,MenuPedidosActivity.class);
-        intent.putExtra("id_vendedor",idVendedorString);
+        intent.putExtra("id_vendedor",idVendedorStr);
         CrearPedidoPaso3Activity.this.startActivity(intent);
 
     }

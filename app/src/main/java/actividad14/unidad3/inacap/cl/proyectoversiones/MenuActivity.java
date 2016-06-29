@@ -30,19 +30,17 @@ public class MenuActivity extends AppCompatActivity {
                 menuPedidos();
             }
         });
-
-        //Botón Volver
-        Button cmdVolver=(Button) findViewById(R.id.cmdVolver);
-        cmdVolver.setOnClickListener(new View.OnClickListener() {
+        //Botón Salir
+        Button cmdSalir=(Button)findViewById(R.id.cmdSalir);
+        cmdSalir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                volverAlLogin();
+                salir();
             }
         });
 
-    }
-    //Listener para el menú de clientes
 
+    }
     public void menuVendedores(){
         //Recupero el id del vendedor
         Bundle extras=getIntent().getExtras();
@@ -53,24 +51,21 @@ public class MenuActivity extends AppCompatActivity {
         intent.putExtra("id_vendedor",id_vendedor_string); //Reenvío el id del vendedor
         MenuActivity.this.startActivity(intent);
     }
-
-    //Listener para el menú de pedidos
     public void menuPedidos(){
         //Recupero el id del vendedor
         Bundle extras=getIntent().getExtras();
         String id_vendedor_string=extras.getString("id_vendedor");
-        //   Toast.makeText(MenuActivity.this, "Vendedor="+id_vendedor_string, Toast.LENGTH_SHORT).show();
 
-        //Lo envío al menú de pedidos
+        //Lo envío a mostrar los pedidos
         Intent intent=new Intent(MenuActivity.this,MenuPedidosActivity.class);
         intent.putExtra("id_vendedor",id_vendedor_string); //Reenvío el id del vendedor
         MenuActivity.this.startActivity(intent);
     }
-
-    //Volver al Login
-    public void volverAlLogin(){
+    public void salir(){
         Intent intent=new Intent(MenuActivity.this,LoginActivity.class);
         MenuActivity.this.startActivity(intent);
     }
+
+
 
 }

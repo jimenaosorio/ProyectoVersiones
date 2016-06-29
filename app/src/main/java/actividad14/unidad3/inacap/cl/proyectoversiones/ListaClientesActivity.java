@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,56 +20,55 @@ import clases.ListaVendedores;
 import clases.Vendedor;
 
 public class ListaClientesActivity extends AppCompatActivity {
-    private ArrayAdapter<Cliente> adapter;
-    private String id_vendedor_string="";
+    private String idVendedorStr;
+    private ArrayList<Cliente> clientes;
+    private Vendedor vendedor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_clientes);
 
-        //Crear un TextView y mostrar el nombre del vendedor
-        TextView txtVendedor=(TextView)findViewById(R.id.txtVendedor);
-
-        //Obtener la lista de todos los vendedores
-        ListaVendedores listaVendedores= ListaVendedores.getInstancia();
-        ArrayList<Vendedor> vendedores=listaVendedores.getListaVendedores();
-
-        //Recoger el id desde el LoginActivity
+        //Recuperar la lista de clientes del vendedor
         Bundle extras=getIntent().getExtras();
-        id_vendedor_string=extras.getString("id_vendedor");
-        int idVendedor=Integer.parseInt(id_vendedor_string);
+        idVendedorStr=extras.getString("id_vendedor");
+        ListaVendedores vendedores=ListaVendedores.getInstancia();
+        vendedor=vendedores.getVendedor(Integer.parseInt(idVendedorStr));
+        clientes=vendedor.getClientes();
+        if(clientes!=null) {
+            int tam = clientes.size();
 
-        //Buscar el vendedor
-        Vendedor vendedor=listaVendedores.getVendedor(idVendedor);
+            //Radio Group
 
-        txtVendedor.setText("Clientes de " + vendedor.getNombre());
+            LinearLayout ll = new LinearLayout(this);
+            ll.setOrientation(LinearLayout.VERTICAL);
+            for (int i = 1; i <= tam; i++) {
+                RadioButton rdbtn = new RadioButton(this);
 
-        //Crear un ListView y mostrar los clientes
-        ListView lvClientes = (ListView) findViewById(R.id.lvClientes);
-        ArrayList<Cliente> clientes = vendedor.getClientes(); //Lista de clientes para ese vendedor
-        if (clientes != null) {
+                Cliente c = clientes.get(i - 1);
+                rdbtn.setId(c.getIdCliente());
+                rdbtn.setText(c.getNombre());
+                ll.addView(rdbtn);
 
-            adapter = new ArrayAdapter<Cliente>(getApplicationContext(), android.R.layout.simple_spinner_item, clientes);
-            lvClientes.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        } else {
-            Toast.makeText(ListaClientesActivity.this, "NO Tiene clientes", Toast.LENGTH_SHORT).show();
+            }
+            ((RadioGroup) findViewById(R.id.radiogroup)).addView(ll);
+        }
+        else{
+            Toast.makeText(ListaClientesActivity.this,"El vendedor no tiene clientes ingresados",Toast.LENGTH_SHORT).show();
         }
 
-        //Botón Ingresar
 
-        Button cmdAgregarCliente=(Button) findViewById(R.id.cmdAgregarCliente);
-        cmdAgregarCliente.setOnClickListener(new View.OnClickListener() {
+        //Listeners de los botones
+
+        Button cmdNuevo=(Button)findViewById(R.id.cmdNuevo);
+        cmdNuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                agregarCliente();
+                clienteNuevo();
             }
         });
-
-        // Botón Eliminar
-
-        Button cmdEliminar=(Button) findViewById(R.id.cmdEliminar);
+        Button cmdEliminar=(Button)findViewById(R.id.cmdEliminar);
         cmdEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,40 +76,64 @@ public class ListaClientesActivity extends AppCompatActivity {
             }
         });
 
-        //Botón Modificar
-
-        Button cmdModificar=(Button) findViewById(R.id.cmdModificar);
+        Button cmdModificar=(Button)findViewById(R.id.cmdModificar);
         cmdModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                modificar();
+                modificarCliente();
+            }
+        });
+
+        Button cmdVolver=(Button)findViewById(R.id.cmdVolver);
+        cmdVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                volver();
+
             }
         });
 
 
+
     }
-    //Listener para llamar al Activity que agrega un cliente
-    public void agregarCliente(){
-
-
+    public void clienteNuevo(){
         Intent intent=new Intent(ListaClientesActivity.this,AgregarClienteActivity.class);
-        intent.putExtra("id_ven",id_vendedor_string);
+        intent.putExtra("id_vendedor",idVendedorStr);
         ListaClientesActivity.this.startActivity(intent);
     }
-
-    //Listener para llamar al activity para eliminar un cliente
     public void eliminarCliente(){
-        Intent intent=new Intent(ListaClientesActivity.this,EliminarClienteActivity.class);
-        intent.putExtra("id_vendedor",id_vendedor_string);
+        Cliente c=clienteSeleccionado();
+        Toast.makeText(ListaClientesActivity.this,"Eliminando Cliente: "+c.getNombre(),Toast.LENGTH_SHORT).show();
+        vendedor.dropCliente(c.getIdCliente());
+        Intent intent=new Intent(ListaClientesActivity.this,ListaClientesActivity.class);
+        intent.putExtra("id_vendedor",idVendedorStr);
         ListaClientesActivity.this.startActivity(intent);
     }
-
-    //Listener para modificar un cliente
-    public void modificar(){
+    public void modificarCliente(){
+        Cliente c=clienteSeleccionado();
         Intent intent=new Intent(ListaClientesActivity.this, ModificarClienteActivity.class);
-        intent.putExtra("id_vendedor",id_vendedor_string);
+        intent.putExtra("id_vendedor",idVendedorStr);
+        intent.putExtra("id_cliente",c.getIdCliente());
         ListaClientesActivity.this.startActivity(intent);
     }
+    //Rescatar el cliente seleccionado
+    public Cliente clienteSeleccionado(){
+        Cliente cliente=null;
+        int tam=clientes.size();
+        for(int i = 1; i <=tam; i++) {
+            cliente=clientes.get(i-1);
+            RadioButton rdbtn =(RadioButton)findViewById(cliente.getIdCliente());
+            if(rdbtn.isChecked()){
+                return cliente;
+            }
+        }
 
+        return null;
+    }
+    public void volver(){
+        Intent intent=new Intent(ListaClientesActivity.this,MenuActivity.class);
+        intent.putExtra("id_vendedor",idVendedorStr);
+        ListaClientesActivity.this.startActivity(intent);
+    }
 
 }

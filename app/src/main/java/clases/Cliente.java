@@ -62,4 +62,5 @@ public class Cliente {
         return "[" + String.valueOf(this.idCliente) +"]: " + this.nombre + ", " + this.direccion + ", " + this.telefono;
     }
 
+
 }

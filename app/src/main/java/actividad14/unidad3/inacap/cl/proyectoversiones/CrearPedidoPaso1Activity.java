@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,95 +18,75 @@ import clases.ListaVendedores;
 import clases.Vendedor;
 
 public class CrearPedidoPaso1Activity extends AppCompatActivity {
-    private String idVendedorString;
-    private String idClienteString;
+    private String idVendedorStr;
     private Vendedor vendedor;
     private ArrayAdapter<Cliente> adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_pedido_paso1);
-        ListView lvClientesPedido=(ListView) findViewById(R.id.lvClientesPedido);
-        ListaVendedores listaVendedores= ListaVendedores.getInstancia();
-
-
-        //Recuperar el vendedor
+        //Recupero el id del vendedor
         Bundle extras=getIntent().getExtras();
-        idVendedorString=extras.getString("id_vendedor");
-
+        idVendedorStr=extras.getString("id_vendedor");
 
         int idVendedor=0;
         try {
-            idVendedor = Integer.valueOf(idVendedorString);
+            idVendedor = Integer.valueOf(idVendedorStr);
 
         }catch(NumberFormatException e){
-            Toast.makeText(CrearPedidoPaso1Activity.this,"vendedor="+idVendedorString,Toast.LENGTH_SHORT);
+            Toast.makeText(CrearPedidoPaso1Activity.this,"El vendedor no está registrado", Toast.LENGTH_SHORT);
         }
+        //Recuperar el vendedor
+        ListaVendedores listaVendedores=ListaVendedores.getInstancia();
         vendedor=listaVendedores.getVendedor(idVendedor);
-        //  Toast.makeText(CrearPedidoPaso1Activity.this,"vendedor="+idVendedorString,Toast.LENGTH_SHORT);
-
-
+        //Recuperar los clientes
         ArrayList<Cliente> clientes = vendedor.getClientes();
-        //Rellenar el ListView
-
-        if (clientes != null) {
-
+        //Rellenar el spinner
+        Spinner spinClientes=(Spinner)findViewById(R.id.spinClientes);
+        if(clientes!=null){
             adapter = new ArrayAdapter<Cliente>(getApplicationContext(), android.R.layout.simple_spinner_item, clientes);
-            lvClientesPedido.setAdapter(adapter);
+            spinClientes.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-        } else {
-            Toast.makeText(CrearPedidoPaso1Activity.this, "NO Tiene clientes", Toast.LENGTH_SHORT).show();
+
+        }else{
+            Toast.makeText(CrearPedidoPaso1Activity.this,"No posee clientes",Toast.LENGTH_SHORT).show();
         }
-
-
         //Botón siguiente
-        Button cmdSiguiente1=(Button)findViewById(R.id.cmdSiguiente1);
+        Button cmdSiguiente1=(Button) findViewById(R.id.cmdSiguiente1);
         cmdSiguiente1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                siguiente1();
+                siguiente();
             }
         });
 
 
 
     }
-    public void siguiente1(){
-        EditText txtIdClientePedido=(EditText)findViewById(R.id.txtIdClientePedido);
-        idClienteString=txtIdClientePedido.getText().toString();
+
+
+    public void siguiente(){
+        //Leer el cliente seleccionado
+        Spinner spinClientes=(Spinner)findViewById(R.id.spinClientes);
+        //Recuperar el id del cliente
+        String datosCliente=spinClientes.getSelectedItem().toString();
+        String idStr=datosCliente.substring(1,4);
         int idCliente=0;
-
-
-        //Validar el número ingresado
         try{
-            idCliente=Integer.parseInt(idClienteString);
-
+            idCliente=Integer.parseInt(idStr);
+            Toast.makeText(CrearPedidoPaso1Activity.this,"ID Cliente="+idStr,Toast.LENGTH_SHORT).show();
         }catch (NumberFormatException e){
-            Toast.makeText(CrearPedidoPaso1Activity.this,"El ID del cliente debe ser un número",Toast.LENGTH_SHORT).show();
-            Intent intent1=new Intent(CrearPedidoPaso1Activity.this,MenuPedidosActivity.class);
-            intent1.putExtra("id_vendedor",idVendedorString);
-            CrearPedidoPaso1Activity.this.startActivity(intent1);
+            Toast.makeText(CrearPedidoPaso1Activity.this,"Formato de ID incorrecto",Toast.LENGTH_SHORT).show();
         }
-
-        //Validar que el número del cliente exista
-        Cliente cliente=vendedor.getCliente(idCliente);
-        // Toast.makeText(CrearPedidoPaso1Activity.this,"id cliente="+cliente.getIdCliente(),Toast.LENGTH_SHORT).show();
-
-        if(cliente==null){
-            Toast.makeText(CrearPedidoPaso1Activity.this,"ID de cliente incorrecto",Toast.LENGTH_SHORT).show();
-            Intent intent2=new Intent(CrearPedidoPaso1Activity.this,MenuPedidosActivity.class);
-            intent2.putExtra("id_vendedor",idVendedorString);
-            CrearPedidoPaso1Activity.this.startActivity(intent2);
-        }else {
-
-            //Reenviar el ID cliente e ID vendedor al paso 2
-            Intent intent=new Intent(CrearPedidoPaso1Activity.this,CrearPedidoPaso2Activity.class);
-            intent.putExtra("id_vendedor",idVendedorString);
-            intent.putExtra("id_cliente",idClienteString);
-            CrearPedidoPaso1Activity.this.startActivity(intent);
-        }
+        //Reenviar
+        Intent intent=new Intent(CrearPedidoPaso1Activity.this,CrearPedidoPaso2Activity.class);
+        intent.putExtra("id_vendedor",idVendedorStr);
+        intent.putExtra("id_cliente",idCliente);
+        CrearPedidoPaso1Activity.this.startActivity(intent);
 
     }
+
 
 }

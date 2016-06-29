@@ -7,19 +7,15 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import clases.Cliente;
 import clases.DetallePedido;
 import clases.ListaVendedores;
 import clases.Pedido;
 import clases.Vendedor;
 
-public class VerDetallePedidoActivity extends AppCompatActivity {
+public class DetalleEntregaActivity extends AppCompatActivity {
     private String idVendedorStr;
     private int idPedido;
     private Vendedor vendedor;
@@ -31,18 +27,19 @@ public class VerDetallePedidoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver_detalle_pedido);
+        setContentView(R.layout.activity_detalle_entrega);
+
         //Recuperar el pedido
         Bundle extras=getIntent().getExtras();
         idVendedorStr=extras.getString("id_vendedor");
         int idVendedor=Integer.parseInt(idVendedorStr);
         ListaVendedores listaVendedores=ListaVendedores.getInstancia();
         vendedor=listaVendedores.getVendedor(idVendedor);
-        idPedido=extras.getInt("id_pedido");
+        idPedido=Integer.parseInt(extras.getString("id_pedido"));
         pedido=vendedor.getPedido(idPedido);
 
         //Tabla de datos del pedido
-        GridView gvDatosPedido=(GridView)findViewById(R.id.gvDatosPedido);
+        GridView gvDatosPedidos=(GridView)findViewById(R.id.gvDatosPedido);
         ArrayList<String> datos1=new ArrayList<String>();
 
         //Nombre
@@ -71,14 +68,14 @@ public class VerDetallePedidoActivity extends AppCompatActivity {
 
         //Tabla del pedido
         adapter1=new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, datos1);
-        gvDatosPedido.setAdapter(adapter1);
+        gvDatosPedidos.setAdapter(adapter1);
         adapter1.notifyDataSetChanged();
 
         //Recuperar detalle
         ArrayList<DetallePedido> detallePedido=pedido.getDetalles();
 
         //LLenar la tabla
-        GridView gvDetalle=(GridView)findViewById(R.id.gvDetalle);
+        GridView gvDetalleEntrega=(GridView)findViewById(R.id.gvDetalleEntrega);
         ArrayList<String> datos2=new ArrayList<String>();
 
         datos2.add("Código Prod.");
@@ -93,28 +90,24 @@ public class VerDetallePedidoActivity extends AppCompatActivity {
         }
         //Tabla de detalle
         adapter2=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item,datos2);
-        gvDetalle.setAdapter(adapter2);
+        gvDetalleEntrega.setAdapter(adapter2);
         adapter2.notifyDataSetChanged();
 
-        //Registrar Entrega
-        Button cmdRegistrarEntrega=(Button)findViewById(R.id.cmdRegistrarEntrega);
-        cmdRegistrarEntrega.setOnClickListener(new View.OnClickListener() {
+        //Botón volver
+        Button cmdVolverAPedidos=(Button)findViewById(R.id.cmdVolverAPedidos);
+        cmdVolverAPedidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registrarEntrega();
+                volver();
             }
         });
 
 
     }
-    public void registrarEntrega(){
-        vendedor.hacerEntrega(idPedido);
-        Toast.makeText(VerDetallePedidoActivity.this,"Entrega registrada",Toast.LENGTH_SHORT).show();
-        Intent intent=new Intent(VerDetallePedidoActivity.this, MenuPedidosActivity.class);
+    public void volver(){
+        Intent intent=new Intent(DetalleEntregaActivity.this, MenuPedidosActivity.class);
         intent.putExtra("id_vendedor",idVendedorStr);
-        VerDetallePedidoActivity.this.startActivity(intent);
+        DetalleEntregaActivity.this.startActivity(intent);
     }
-
-
 
 }

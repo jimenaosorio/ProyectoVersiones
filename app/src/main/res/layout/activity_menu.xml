@@ -7,37 +7,38 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+
     tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.MenuActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Administrar Clientes"
-        android:id="@+id/cmdClientes"
-        android:layout_marginTop="58dp"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/cmdVolver" />
+        android:weightSum="1">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Administrar Pedidos"
-        android:id="@+id/cmdPedidos"
-        android:layout_below="@+id/cmdClientes"
-        android:layout_alignLeft="@+id/cmdClientes"
-        android:layout_alignStart="@+id/cmdClientes"
-        android:layout_marginTop="47dp"
-        android:layout_alignRight="@+id/cmdClientes"
-        android:layout_alignEnd="@+id/cmdClientes" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clientes"
+            android:id="@+id/cmdClientes"
+            android:layout_weight="0.29" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Volver"
-        android:id="@+id/cmdVolver"
-        android:layout_marginBottom="47dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pedidos"
+            android:id="@+id/cmdPedidos"
+            android:layout_weight="0.27" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salir"
+            android:id="@+id/cmdSalir"
+            android:layout_weight="0.29" />
+    </LinearLayout>
+
 </RelativeLayout>
 

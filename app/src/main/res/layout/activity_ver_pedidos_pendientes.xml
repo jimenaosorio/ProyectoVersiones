@@ -8,85 +8,36 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
 
-    tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.VerPedidosPendientesActivity">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Pedidos Pendientes"
-        android:id="@+id/textView20"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
 
+    tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.VerPedidosPendientesActivity">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView20"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:weightSum="1">
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="197dp"
-            android:id="@+id/lvPedidosPendientes"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.46"
-            android:background="@color/accent_material_light" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Seleccione el pedido a entregar"
+            android:id="@+id/textView14"
+            android:layout_gravity="center_horizontal" />
 
-        <TableLayout
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0.46">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Ver detalle del pedido"
-                    android:id="@+id/textView21"
-                    android:layout_column="1" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="ID Pedido:"
-                    android:id="@+id/textView22"
-                    android:layout_column="0" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtIdPedido"
-                    android:layout_column="1" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ver Detalle"
-                    android:id="@+id/cmdVerDetalle"
-                    android:layout_column="2" />
-            </TableRow>
-        </TableLayout>
+            android:id="@+id/rgPedidosPendientes"></RadioGroup>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Volver"
-            android:id="@+id/cmdVolverAlMenuPedidos"
+            android:text="Ver Detalle"
+            android:id="@+id/cmdVerPedidoPendiente"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
+
 
 </RelativeLayout>

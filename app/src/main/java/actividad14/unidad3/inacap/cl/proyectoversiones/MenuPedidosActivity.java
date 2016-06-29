@@ -7,70 +7,69 @@ import android.view.View;
 import android.widget.Button;
 
 public class MenuPedidosActivity extends AppCompatActivity {
-    private String idVendedorString;
+    private String idVendedorStr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_pedidos);
-        //Botón Crear pedido
-        Button cmdCrearPedido=(Button) findViewById(R.id.cmdCrearPedido);
-        cmdCrearPedido.setOnClickListener(new View.OnClickListener() {
+
+        //Recupero el id del vendedor
+        Bundle extras=getIntent().getExtras();
+        idVendedorStr=extras.getString("id_vendedor");
+
+        //Botones
+        Button cmdIngresrPedido=(Button)findViewById(R.id.cmdIngresarPedido);
+        cmdIngresrPedido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crearPedido();
+                paso1();
             }
         });
 
-        //Botón Ver pedidos
-        Button cmdVerPedidos=(Button) findViewById(R.id.cmdVerPedidos);
-        cmdVerPedidos.setOnClickListener(new View.OnClickListener() {
+        Button cmdRegistrarEntrega=(Button)findViewById(R.id.cmdRegistrarEntrega);
+        cmdRegistrarEntrega.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                verPedidos();
+                verEntregas();
             }
         });
 
-        //Botón volver al menú
-        Button cmdVolverAlMenu=(Button) findViewById(R.id.cmdVolverAlMenu);
-        cmdVolverAlMenu.setOnClickListener(new View.OnClickListener() {
+        Button cmdResumenDeCaja=(Button)findViewById(R.id.cmdResumenDeCaja);
+        cmdResumenDeCaja.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                volverAlMenu();
+                resumenDeCaja();
             }
         });
+
+        Button cmdVolver2=(Button)findViewById(R.id.cmdVolver2);
+        cmdVolver2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                volver();
+            }
+        });
+
 
     }
-    //Listener para crear un pedido
-    public void crearPedido(){
-        //Recuperar el ID del vendedor
-        Bundle extras=getIntent().getExtras();
-        idVendedorString=extras.getString("id_vendedor");
-
-        //Redireccionar al paso 1
-        Intent intent=new Intent(MenuPedidosActivity.this,CrearPedidoPaso1Activity.class);
-        intent.putExtra("id_vendedor",idVendedorString);
+    public void paso1(){
+        Intent intent=new Intent(MenuPedidosActivity.this, CrearPedidoPaso1Activity.class);
+        intent.putExtra("id_vendedor",idVendedorStr);
         MenuPedidosActivity.this.startActivity(intent);
     }
-
-    //Listener para ver los pedidos pendientes
-    public void verPedidos(){
-        //Recuperar el ID del vendedor
-        Bundle extras=getIntent().getExtras();
-        idVendedorString=extras.getString("id_vendedor");
-
-        Intent intent=new Intent(MenuPedidosActivity.this,VerPedidosPendientesActivity.class);
-        intent.putExtra("id_vendedor",idVendedorString);
+    public void verEntregas(){
+        Intent intent=new Intent(MenuPedidosActivity.this, VerPedidosPendientesActivity.class);
+        intent.putExtra("id_vendedor",idVendedorStr);
         MenuPedidosActivity.this.startActivity(intent);
     }
-
-
-    //Listener para volver al menú
-    public void volverAlMenu(){
-        //Recuperar el ID del vendedor
-        Bundle extras=getIntent().getExtras();
-        idVendedorString=extras.getString("id_vendedor");
-        Intent intent=new Intent(MenuPedidosActivity.this,MenuActivity.class);
-        intent.putExtra("id_vendedor",idVendedorString);
+    public void resumenDeCaja(){
+        Intent intent=new Intent(MenuPedidosActivity.this, ResumenDeCajaActivity.class);
+        intent.putExtra("id_vendedor",idVendedorStr);
+        MenuPedidosActivity.this.startActivity(intent);
+    }
+    public void volver(){
+        Intent intent=new Intent(MenuPedidosActivity.this, MenuActivity.class);
+        intent.putExtra("id_vendedor",idVendedorStr);
         MenuPedidosActivity.this.startActivity(intent);
     }
 

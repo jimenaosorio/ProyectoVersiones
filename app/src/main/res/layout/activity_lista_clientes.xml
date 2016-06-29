@@ -7,53 +7,62 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+
     tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.ListaClientesActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Bienvenido"
-        android:id="@+id/txtVendedor"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/Usuarios"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/txtVendedor"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="41dp">
-
-        <ListView
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/text"
             android:layout_width="match_parent"
-            android:layout_height="127dp"
-            android:id="@+id/lvClientes"
-            android:background="@color/accent_material_light" />
+            android:layout_height="72dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Clientes"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Button
+        <RadioGroup
+            android:id="@+id/radiogroup"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Agregar un Cliente"
-            android:id="@+id/cmdAgregarCliente"
-            android:layout_gravity="center_horizontal" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+        </RadioGroup>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Eliminar un Cliente"
-            android:id="@+id/cmdEliminar"
-            android:layout_gravity="center_horizontal" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Modificar un cliente"
-            android:id="@+id/cmdModificar"
-            android:layout_gravity="center_horizontal" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nuevo"
+                android:id="@+id/cmdNuevo" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Eliminar"
+                android:id="@+id/cmdEliminar" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Modificar"
+                android:id="@+id/cmdModificar" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Volver"
+                android:id="@+id/cmdVolver" />
+        </LinearLayout>
 
     </LinearLayout>
+
 
 </RelativeLayout>

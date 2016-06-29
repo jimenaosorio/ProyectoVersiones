@@ -2,20 +2,39 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="actividad14.unidad3.inacap.cl.proyectoversiones">
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".ListaClientesActivity" />
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".AgregarClienteActivity" />
+        <activity android:name=".ModificarClienteActivity" />
+        <activity android:name=".MenuPedidosActivity" />
+        <activity android:name=".CrearPedidoPaso1Activity" />
+        <activity android:name=".CrearPedidoPaso2Activity" />
+        <activity android:name=".CrearPedidoPaso3Activity" />
+        <activity android:name=".VerPedidosPendientesActivity" />
+        <activity android:name=".VerDetallePedidoActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".ListaClientesActivity"></activity>
+        <activity android:name=".ResumenDeCajaActivity" />
+        <activity android:name=".DetalleEntregaActivity"></activity>
     </application>
 
 </manifest>

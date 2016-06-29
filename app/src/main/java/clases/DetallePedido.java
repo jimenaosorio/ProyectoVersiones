@@ -28,4 +28,6 @@ public class DetallePedido {
         return "["+producto.getCodigo()+"]: "+producto.getNombreProducto()+", $"+producto.getPrecio()+", cant:  "+cantidad;
     }
 
+
+
 }

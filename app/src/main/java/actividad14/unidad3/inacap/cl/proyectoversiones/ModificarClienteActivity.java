@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,87 +18,68 @@ import clases.ListaVendedores;
 import clases.Vendedor;
 
 public class ModificarClienteActivity extends AppCompatActivity {
-    private String id_vendedor_string;
+    private String idVendedorStr;
     private ListaVendedores listaVendedores;
-    private ArrayList<Vendedor> vendedores;
-    private int idVendedor;
     private Vendedor vendedor;
-    private ArrayAdapter<Cliente> adapter;
+    private Cliente cliente;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modificar_cliente);
-        //Obtener la lista de todos los vendedores
-        listaVendedores= ListaVendedores.getInstancia();
-        vendedores=listaVendedores.getListaVendedores();
-
-        //Recoger el id desde el LoginActivity
+        //Recuperar el vendedor
         Bundle extras=getIntent().getExtras();
-        id_vendedor_string=extras.getString("id_vendedor");
-        idVendedor=Integer.parseInt(id_vendedor_string);
+        idVendedorStr=extras.getString("id_vendedor");
+        listaVendedores=ListaVendedores.getInstancia();
+        vendedor=listaVendedores.getVendedor(Integer.parseInt(idVendedorStr));
+        //Recuperar el cliente
+        int idCliente=extras.getInt("id_cliente");
+        cliente=vendedor.getCliente(idCliente);
+        //Mostrar los datos
+        TextView txtId=(TextView)findViewById(R.id.txtIdClienteModificar);
+        txtId.setText(String.valueOf(cliente.getIdCliente()));
+        EditText txtNombre=(EditText)findViewById(R.id.txtNombreClienteModificar);
+        txtNombre.setText(cliente.getNombre());
+        EditText txtDir=(EditText)findViewById(R.id.txtDireccionClienteModificar);
+        txtDir.setText(cliente.getDireccion());
+        EditText txtTel=(EditText)findViewById(R.id.txtTelefonoClienteModificar);
+        txtTel.setText(cliente.getTelefono());
 
-        //Buscar el vendedor
-        vendedor=listaVendedores.getVendedor(idVendedor);
-
-        //Crear un ListView y mostrar los clientes
-        ListView lvClientes = (ListView) findViewById(R.id.lvClientes);
-        ArrayList<Cliente> clientes = vendedor.getClientes(); //Lista de clientes para ese vendedor
-
-        if (clientes != null) {
-            adapter = new ArrayAdapter<Cliente>(getApplicationContext(), android.R.layout.simple_spinner_item, clientes);
-            lvClientes.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        } else {
-            Toast.makeText(ModificarClienteActivity.this, "NO Tiene clientes", Toast.LENGTH_SHORT).show();
-        }
-
-        //Crear el botón modificar
-        Button cmdModificar=(Button) findViewById(R.id.cmdModificar);
-        cmdModificar.setOnClickListener(new View.OnClickListener() {
+        //Listener de los botones
+        Button cmdModificarCliente=(Button)findViewById(R.id.cmdModificarCliente);
+        cmdModificarCliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 modificar();
             }
         });
-
-        //Crear el botón cancelar
-        Button cmdCancelar=(Button) findViewById(R.id.cmdCancelar);
-        cmdCancelar.setOnClickListener(new View.OnClickListener() {
+        Button cmdCancelarModificar=(Button)findViewById(R.id.cmdCancelarModificar);
+        cmdCancelarModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancelar();
+                volver();
             }
         });
 
+
     }
     public void modificar(){
-        //Recuperar el ID ingresado
-        EditText txtIdClienteActual=(EditText) findViewById(R.id.txtIdClienteActual);
-        //Pasarlo a int
-        int idCliente=Integer.parseInt(txtIdClienteActual.getText().toString());
-        //Leer los campos de texto
-        EditText txtNombreNuevo=(EditText) findViewById(R.id.txtNombreNuevo);
-        String nombreNuevo=txtNombreNuevo.getText().toString();
-        EditText txtDireccionNueva=(EditText) findViewById(R.id.txtDireccionNueva);
-        String direccionNueva=txtDireccionNueva.getText().toString();
-        EditText txtTelefonoNuevo=(EditText) findViewById(R.id.txtTelefonoNuevo);
-        String telefonoNuevo=txtTelefonoNuevo.getText().toString();
-
-        //Modificar el cliente
-        vendedor.alterCliente(idCliente,nombreNuevo,direccionNueva,telefonoNuevo);
-
-        //Mensaje y volver
-        Toast.makeText(ModificarClienteActivity.this,"Cliente modificado",Toast.LENGTH_SHORT).show();
-
+        TextView txtId=(TextView) findViewById(R.id.txtIdClienteModificar);
+        int id=Integer.parseInt(txtId.getText().toString());
+        EditText txtNombre=(EditText)findViewById(R.id.txtNombreClienteModificar);
+        String nombre=txtNombre.getText().toString();
+        EditText txtDir=(EditText)findViewById(R.id.txtDireccionClienteModificar);
+        String direccion=txtDir.getText().toString();
+        EditText txtTel=(EditText)findViewById(R.id.txtTelefonoClienteModificar);
+        String tel=txtTel.getText().toString();
+        vendedor.alterCliente(id,nombre,direccion,tel);
         volver();
-    }
-    public void cancelar(){
-        volver();
+
     }
     public void volver(){
         Intent intent=new Intent(ModificarClienteActivity.this,ListaClientesActivity.class);
-        intent.putExtra("id_vendedor",id_vendedor_string);
+        intent.putExtra("id_vendedor",idVendedorStr);
         ModificarClienteActivity.this.startActivity(intent);
     }
 

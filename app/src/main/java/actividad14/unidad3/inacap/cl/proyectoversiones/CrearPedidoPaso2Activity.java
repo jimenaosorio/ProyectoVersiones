@@ -9,30 +9,20 @@ import android.widget.CalendarView;
 import android.widget.Toast;
 
 public class CrearPedidoPaso2Activity extends AppCompatActivity {
-    private String idVendedorString;
-    private String idClienteString;
-    private String fechaEntrega;
+   private String fechaEntrega;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_pedido_paso2);
-        //Recuperar idVendedor e IdCliente
-        Bundle extras=getIntent().getExtras();
-        idVendedorString=extras.getString("id_vendedor");
-        idClienteString=extras.getString("id_cliente");
-
-        //Calendar view
-        CalendarView cvFechaEntrega=(CalendarView) findViewById(R.id.cvFechaEntrega);
-        cvFechaEntrega.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        CalendarView calFechaEntrega=(CalendarView)findViewById(R.id.calFechaEntrega);
+        calFechaEntrega.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 fechaEntrega=String.valueOf(dayOfMonth)+"/"+String.valueOf(month+1)+"/"+String.valueOf(year);
             }
         });
-
-        //Botón siguiente
-        Button cmdSiguiente2=(Button) findViewById(R.id.cmdSiguiente2);
+        Button cmdSiguiente2=(Button)findViewById(R.id.cmdSiguiente2);
         cmdSiguiente2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,17 +30,19 @@ public class CrearPedidoPaso2Activity extends AppCompatActivity {
             }
         });
 
+
     }
     //Listener para el botón siguiente
     public void siguiente2(){
-
-        Toast.makeText(CrearPedidoPaso2Activity.this,"Fecha: "+fechaEntrega,Toast.LENGTH_SHORT).show();
+        Bundle extras=getIntent().getExtras();
+        String idVendedorStr=extras.getString("id_vendedor");
+        int idCliente=extras.getInt("id_cliente");
         Intent intent=new Intent(CrearPedidoPaso2Activity.this,CrearPedidoPaso3Activity.class);
-        intent.putExtra("id_vendedor",idVendedorString);
-        intent.putExtra("id_cliente",idClienteString);
+        intent.putExtra("id_vendedor",idVendedorStr);
+        intent.putExtra("id_cliente",idCliente);
         intent.putExtra("fecha_entrega",fechaEntrega);
         CrearPedidoPaso2Activity.this.startActivity(intent);
-
     }
+
 
 }

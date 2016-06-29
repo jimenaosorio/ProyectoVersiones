@@ -8,6 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
 
+
     tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.CrearPedidoPaso1Activity">
     <LinearLayout
         android:orientation="vertical"
@@ -15,38 +16,23 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:weightSum="1">
+        android:layout_alignParentStart="true">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Paso 1: Cliente"
-            android:id="@+id/textView17"
+            android:text="Paso 1: Seleccione el cliente:"
+            android:id="@+id/textView10"
             android:layout_gravity="center_horizontal" />
 
-        <ListView
+        <Spinner
             android:layout_width="match_parent"
-            android:layout_height="148dp"
-            android:id="@+id/lvClientesPedido"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinClientes"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0.04"
-            android:background="@color/accent_material_light" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Ingrese el ID del cliente:"
-            android:id="@+id/textView18"
-            android:layout_gravity="center_horizontal" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtIdClientePedido"
-            android:layout_gravity="center_horizontal" />
+            android:background="@color/accent_material_light"
+            style="@style/AppTheme" />
 
         <Button
             android:layout_width="wrap_content"
@@ -54,6 +40,8 @@
             android:text="Siguiente"
             android:id="@+id/cmdSiguiente1"
             android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
+
 
 </RelativeLayout>

@@ -353,13 +353,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 //     Toast.makeText(LoginActivity.this,"vendedor:"+txtLogin.getText(),Toast.LENGTH_SHORT).show();
 
                 int idV=vendedores.validarLogin(txtLogin.getText().toString(),txtPassword.getText().toString());
-                Toast.makeText(LoginActivity.this,"Usuario y contraseña correctos", Toast.LENGTH_SHORT).show();
-                /****   REENVIAR  *****/
-                Intent intent=new Intent(LoginActivity.this,MenuActivity.class);
+                if(idV>0) {
+                    Toast.makeText(LoginActivity.this, "Usuario y contraseña correctos", Toast.LENGTH_SHORT).show();
+                    /****   REENVIAR  *****/
+                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
 
 
-                intent.putExtra("id_vendedor",String.valueOf(idV)); //pasar el id del vendedor al otro activity
-                LoginActivity.this.startActivity(intent);
+                    intent.putExtra("id_vendedor", String.valueOf(idV)); //pasar el id del vendedor al otro activity
+                    LoginActivity.this.startActivity(intent);
+                }else{
+                    Toast.makeText(LoginActivity.this,"El vendedor no está registrado",Toast.LENGTH_SHORT).show();
+                }
 
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

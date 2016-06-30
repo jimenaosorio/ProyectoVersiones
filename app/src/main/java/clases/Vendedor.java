@@ -18,6 +18,7 @@ public class Vendedor {
 
     public Vendedor(){
         pedidos=new ArrayList<Pedido>();
+        clientes=new ArrayList<Cliente>();
     }
 
     //Getter y Setter de los atributos

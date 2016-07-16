@@ -36,7 +36,7 @@ public class CrearPedidoPaso2Activity extends AppCompatActivity {
     public void siguiente2(){
         Bundle extras=getIntent().getExtras();
         String idVendedorStr=extras.getString("id_vendedor");
-        int idCliente=extras.getInt("id_cliente");
+        String idCliente=extras.getString("id_cliente");
         Intent intent=new Intent(CrearPedidoPaso2Activity.this,CrearPedidoPaso3Activity.class);
         intent.putExtra("id_vendedor",idVendedorStr);
         intent.putExtra("id_cliente",idCliente);

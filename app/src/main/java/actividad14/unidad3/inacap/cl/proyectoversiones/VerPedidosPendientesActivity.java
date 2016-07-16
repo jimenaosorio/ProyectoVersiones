@@ -31,12 +31,13 @@ public class VerPedidosPendientesActivity extends AppCompatActivity {
         //Recuperar el vendedor
         Bundle extras=getIntent().getExtras();
         idVendedorStr=extras.getString("id_vendedor");
-        int idVendedor=Integer.parseInt(idVendedorStr);
+
         ListaVendedores listaVendedores=ListaVendedores.getInstancia();
-        Vendedor vendedor=listaVendedores.getVendedor(idVendedor);
+        Vendedor vendedor=listaVendedores.getVendedor(idVendedorStr);
 
         //Recuperar los pedidos
-        pedidos=vendedor.getPedidos();
+      //  pedidos=vendedor.getPedidos();
+        pedidos=listaVendedores.getPedidosPendientes(vendedor);
         int tam=pedidos.size();
 
         //Radio buttons
@@ -45,8 +46,8 @@ public class VerPedidosPendientesActivity extends AppCompatActivity {
         for(int i=0;i<tam;i++){
             RadioButton rdbtn = new RadioButton(this);
             Pedido p=pedidos.get(i);
-            rdbtn.setId(p.getIdPedido());
-            rdbtn.setText(p.toString());
+            rdbtn.setId((i+1)*2);
+            rdbtn.setText(p.getCliente().getNombre()+","+p.getFechaEntrega()+","+p.getPrecio());
             ll.addView(rdbtn);
         }
         ((RadioGroup)findViewById(R.id.rgPedidosPendientes)).addView(ll);
@@ -63,6 +64,7 @@ public class VerPedidosPendientesActivity extends AppCompatActivity {
     }
     public void verPedidoPendiente(){
         Pedido pedido=pedidoSeleccionado();
+     //   Toast.makeText(VerPedidosPendientesActivity.this,"id pedido:"+pedido.getIdPedido(),Toast.LENGTH_SHORT).show();
         Intent intent=new Intent(VerPedidosPendientesActivity.this,VerDetallePedidoActivity.class);
         intent.putExtra("id_vendedor",idVendedorStr);
         intent.putExtra("id_pedido",pedido.getIdPedido());
@@ -72,11 +74,23 @@ public class VerPedidosPendientesActivity extends AppCompatActivity {
     //Leer el pedido seleccionado
     public Pedido pedidoSeleccionado(){
         Pedido pedido=null;
+        String texto, nombreCliente, fecha;
+        int total;
+        String[] datos;
         int tam=pedidos.size();
         for(int i=0;i<tam;i++){
             pedido=pedidos.get(i);
-            RadioButton rbn=(RadioButton)findViewById(pedido.getIdPedido());
+            RadioButton rbn=(RadioButton)findViewById((i+1)*2);
             if(rbn.isChecked()){
+                /*
+                texto=rbn.getText().toString();
+                datos=texto.split(",");
+                nombreCliente=datos[0];
+                fecha=datos[1];
+                total=Integer.parseInt(datos[2]);
+                */
+
+
                 return pedido;
             }
         }

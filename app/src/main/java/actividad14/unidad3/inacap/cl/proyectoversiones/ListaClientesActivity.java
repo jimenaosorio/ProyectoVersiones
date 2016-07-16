@@ -3,6 +3,7 @@ package actividad14.unidad3.inacap.cl.proyectoversiones;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,6 +24,7 @@ public class ListaClientesActivity extends AppCompatActivity {
     private String idVendedorStr;
     private ArrayList<Cliente> clientes;
     private Vendedor vendedor;
+    private ListaVendedores vendedores;
 
 
     @Override
@@ -33,8 +35,8 @@ public class ListaClientesActivity extends AppCompatActivity {
         //Recuperar la lista de clientes del vendedor
         Bundle extras=getIntent().getExtras();
         idVendedorStr=extras.getString("id_vendedor");
-        ListaVendedores vendedores=ListaVendedores.getInstancia();
-        vendedor=vendedores.getVendedor(Integer.parseInt(idVendedorStr));
+        vendedores=ListaVendedores.getInstancia();
+        vendedor=vendedores.getVendedor(idVendedorStr);
         clientes=vendedor.getClientes();
         if(clientes!=null) {
             int tam = clientes.size();
@@ -47,7 +49,7 @@ public class ListaClientesActivity extends AppCompatActivity {
                 RadioButton rdbtn = new RadioButton(this);
 
                 Cliente c = clientes.get(i - 1);
-                rdbtn.setId(c.getIdCliente());
+                rdbtn.setId(i*2);
                 rdbtn.setText(c.getNombre());
                 ll.addView(rdbtn);
 
@@ -104,7 +106,11 @@ public class ListaClientesActivity extends AppCompatActivity {
     public void eliminarCliente(){
         Cliente c=clienteSeleccionado();
         Toast.makeText(ListaClientesActivity.this,"Eliminando Cliente: "+c.getNombre(),Toast.LENGTH_SHORT).show();
+        //Desactivarlo en la lista
         vendedor.dropCliente(c.getIdCliente());
+        //Desactivarlo en la base de datos
+        vendedores.dropCliente(c);
+        //Reenviar
         Intent intent=new Intent(ListaClientesActivity.this,ListaClientesActivity.class);
         intent.putExtra("id_vendedor",idVendedorStr);
         ListaClientesActivity.this.startActivity(intent);
@@ -121,9 +127,11 @@ public class ListaClientesActivity extends AppCompatActivity {
         Cliente cliente=null;
         int tam=clientes.size();
         for(int i = 1; i <=tam; i++) {
-            cliente=clientes.get(i-1);
-            RadioButton rdbtn =(RadioButton)findViewById(cliente.getIdCliente());
+
+            RadioButton rdbtn =(RadioButton)findViewById(i*2);
+            cliente=vendedor.getClientePorNombre(rdbtn.getText().toString());
             if(rdbtn.isChecked()){
+                Log.d("cliente","ID cliente="+cliente.getIdCliente());
                 return cliente;
             }
         }

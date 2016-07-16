@@ -5,25 +5,39 @@ package clases;
  */
 public class Cliente {
     //Atributos de cada cliente
-    private int idCliente;
+    private String idCliente;
     private String nombre;
     private String direccion;
     private String telefono;
+    private Vendedor vendedor;
     private boolean activo=true;
-    private static int cuenta=300; //para generar un ID automático
 
-    public Cliente(){
-        cuenta++;
-        idCliente=cuenta;
+
+    public Cliente(String nombre, String direccion, String telefono, Vendedor vendedor){
+
+        this.nombre=nombre;
+        this.direccion=direccion;
+        this.telefono=telefono;
+        this.vendedor=vendedor;
     }
 
-    //Getter y Setter de cada atributo (menos id_cliente que no tiene setter
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
+    }
+//Getter y Setter de cada atributo (menos id_cliente que no tiene setter
 
 
-    public int getIdCliente() {
+    public String getIdCliente() {
         return idCliente;
     }
 
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
+    }
 
     public String getNombre() {
         return nombre;

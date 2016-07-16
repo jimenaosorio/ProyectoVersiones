@@ -34,10 +34,10 @@ public class AgregarClienteActivity extends AppCompatActivity {
 
     }
     public void guardarCliente(){
-        int idVendedor=Integer.parseInt(idVendedorStr);
+
         //Buscar el vendedor
         ListaVendedores listaVendedores= ListaVendedores.getInstancia();
-        Vendedor vendedor=listaVendedores.getVendedor(idVendedor);
+        Vendedor vendedor=listaVendedores.getVendedor(idVendedorStr);
 
 
         //Leer el cliente nuevo y guardarlo en la lista
@@ -47,12 +47,10 @@ public class AgregarClienteActivity extends AppCompatActivity {
         String nombre=txtClienteNombreNuevo.getText().toString();
         String direccion=txtClienteDireccionNueva.getText().toString();
         String telefono=txtTelefonoNuevo.getText().toString();
-        Cliente cliente=new Cliente();
-        cliente.setNombre(nombre);
-        cliente.setDireccion(direccion);
-        cliente.setTelefono(telefono);
+        Cliente cliente=new Cliente(nombre,direccion,telefono,vendedor);
         cliente.setActivo(true);
-        vendedor.addCliente(cliente);
+       // vendedor.addCliente(cliente);
+        listaVendedores.addCliente(cliente,vendedor);
 
         //Devolver el id vendedor y volver al menú de clientes
         Intent intent=new Intent(AgregarClienteActivity.this,ListaClientesActivity.class);

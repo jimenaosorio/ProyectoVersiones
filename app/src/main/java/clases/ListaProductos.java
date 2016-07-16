@@ -1,6 +1,13 @@
 package clases;
 
+import android.content.Context;
+import android.database.Cursor;
+
 import java.util.ArrayList;
+
+import actividad14.unidad3.inacap.cl.proyectoversiones.LoginActivity;
+import database.OperacionesBaseDatos;
+import database.ProductosDataSource;
 
 /**
  * Created by Jimena on 27-06-2016.
@@ -8,6 +15,8 @@ import java.util.ArrayList;
 public class ListaProductos {
     private static ListaProductos instancia=new ListaProductos();
     private ArrayList<Producto> listaProductos;
+    private OperacionesBaseDatos dataSource;
+    private Cursor registros;
 
     public static ListaProductos getInstancia(){
         return instancia;
@@ -15,32 +24,24 @@ public class ListaProductos {
 
     //Constructor
     private ListaProductos(){
+        String codigo;
+        String nombre;
+        int precio;
+        Producto producto;
         listaProductos=new ArrayList<Producto>();
-        Producto p=new Producto();
-        p.setCodigo(1001);
-        p.setNombreProducto("Pera");
-        p.setPrecio(600);
-        listaProductos.add(p);
-        p=new Producto();
-        p.setCodigo(1002);
-        p.setNombreProducto("Melon");
-        p.setPrecio(1000);
-        listaProductos.add(p);
-        p=new Producto();
-        p.setCodigo(1003);
-        p.setNombreProducto("Piña");
-        p.setPrecio(1500);
-        listaProductos.add(p);
-        p=new Producto();
-        p.setCodigo(1004);
-        p.setNombreProducto("Uva");
-        p.setPrecio(800);
-        listaProductos.add(p);
-        p=new Producto();
-        p.setCodigo(1005);
-        p.setNombreProducto("Kiwi");
-        p.setPrecio(600);
-        listaProductos.add(p);
+        dataSource= LoginActivity.getDataSource(); //Leer la BD
+        registros=dataSource.getProductos();  //Leer la tabla productos
+        while(registros.moveToNext()){
+            codigo=registros.getString(1);
+            nombre=registros.getString(2);
+            precio=registros.getInt(3);
+            producto=new Producto(codigo,nombre,precio);
+            listaProductos.add(producto);
+
+
+        }
+
+
 
     }
 
@@ -49,12 +50,12 @@ public class ListaProductos {
     }
 
     //Buscar un producto
-    public Producto buscarProducto(int codProducto){
+    public Producto buscarProducto(String codProducto){
         int tam=listaProductos.size();
         Producto p=null;
         for(int i=0;i<tam;i++){
             p=listaProductos.get(i);
-            if(p.getCodigo()==codProducto){
+            if(p.getCodigo().compareTo(codProducto)==0){
                 return p;
             }
         }

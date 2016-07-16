@@ -20,6 +20,7 @@ public class ResumenDeCajaActivity extends AppCompatActivity {
     private Vendedor vendedor;
     private ArrayAdapter<String> adapter1;
     private ArrayAdapter<String> adapter2;
+    private ListaVendedores listaVendedores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +31,9 @@ public class ResumenDeCajaActivity extends AppCompatActivity {
         //Obtener el vendedor
         Bundle extras=getIntent().getExtras();
         idVendedorStr=extras.getString("id_vendedor");
-        ListaVendedores listaVendedores=ListaVendedores.getInstancia();
-        int idVendedor=Integer.parseInt(idVendedorStr);
-        vendedor=listaVendedores.getVendedor(idVendedor);
+        listaVendedores=ListaVendedores.getInstancia();
+
+        vendedor=listaVendedores.getVendedor(idVendedorStr);
 
         //GridView
         GridView gvResumenDeCaja=(GridView)findViewById(R.id.gvResumenDeCaja);
@@ -51,11 +52,12 @@ public class ResumenDeCajaActivity extends AppCompatActivity {
         adapter1.notifyDataSetChanged();
 
         //Spinner
-        ArrayList<Pedido> entregados=vendedor.getEntregas();
+        ArrayList<Pedido> entregados=listaVendedores.getPedidosEntregados(vendedor);
         ArrayList<String> idPe=new ArrayList<String>();
         int cant=entregados.size();
+
         for(int i=0;i<cant;i++){
-            idPe.add(String.valueOf(entregados.get(i).getIdPedido()));
+            idPe.add(String.valueOf(entregados.get(i).getCliente().getNombre()+","+entregados.get(i).getPrecio()+","+entregados.get(i).getFechaEntrega()));
         }
         Spinner spEntregas=(Spinner)findViewById(R.id.spEntregas);
         if(entregados!=null){
@@ -87,7 +89,14 @@ public class ResumenDeCajaActivity extends AppCompatActivity {
         //Obtener el pedido seleccionado
         Spinner spEntregas=(Spinner)findViewById(R.id.spEntregas);
         //Recuperar el ID del pedido
-        String idPedido=spEntregas.getSelectedItem().toString();
+        String datosPedido=spEntregas.getSelectedItem().toString();
+        String[] separarDatos=datosPedido.split(",");
+        String nombreCliente=separarDatos[0];
+        String precioStr=separarDatos[1];
+        int precio=Integer.parseInt(precioStr);
+        String fecha=separarDatos[2];
+
+        String idPedido=listaVendedores.getIdPedido(nombreCliente,precio,fecha);
         Intent intent=new Intent(ResumenDeCajaActivity.this,DetalleEntregaActivity.class);
         intent.putExtra("id_vendedor",idVendedorStr);
         intent.putExtra("id_pedido",idPedido);

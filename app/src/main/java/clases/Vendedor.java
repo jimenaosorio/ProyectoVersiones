@@ -1,12 +1,18 @@
 package clases;
 
+import android.database.Cursor;
+
 import java.util.ArrayList;
+
+import actividad14.unidad3.inacap.cl.proyectoversiones.LoginActivity;
+import database.OperacionesBaseDatos;
+import database.ProductosDataSource;
 
 /**
  * Created by Jimena on 24-06-2016.
  */
 public class Vendedor {
-    private int idVendedor;
+    private String idVendedor;
     private String nombre;
     private String login;
     private String password;
@@ -16,9 +22,26 @@ public class Vendedor {
     private int montoCobrado=0;
     private int saldo=0;
 
+    private OperacionesBaseDatos dataSource;
+    private Cursor registrosClientes;
+
+    public Vendedor(String idVendedor, String nombre, String login, String password){
+        this.idVendedor=idVendedor;
+        this.nombre=nombre;
+        this.login=login;
+        this.password=password;
+        pedidos=new ArrayList<Pedido>();
+        clientes=new ArrayList<Cliente>();
+     //   dataSource= LoginActivity.getDataSource(); //Leer la BD
+       // registrosClientes=dataSource.getClientes(idVendedor);
+    }
     public Vendedor(){
         pedidos=new ArrayList<Pedido>();
         clientes=new ArrayList<Cliente>();
+
+     //   dataSource= LoginActivity.getDataSource(); //Leer la BD
+
+
     }
 
     //Getter y Setter de los atributos
@@ -36,11 +59,11 @@ public class Vendedor {
         return saldo;
     }
 
-    public int getIdVendedor() {
+    public String getIdVendedor() {
         return idVendedor;
     }
 
-    public void setIdVendedor(int idVendedor) {
+    public void setIdVendedor(String idVendedor) {
         this.idVendedor = idVendedor;
     }
 
@@ -84,6 +107,18 @@ public class Vendedor {
         this.clientes = clientes;
     }
 
+    public void setMontoPedidos(int montoPedidos) {
+        this.montoPedidos = montoPedidos;
+    }
+
+    public void setMontoCobrado(int montoCobrado) {
+        this.montoCobrado = montoCobrado;
+    }
+
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
+    }
+
     //Solo devuelve los pedidos que no se han entregado
     public ArrayList<Pedido> getPedidos() {
         ArrayList<Pedido> pendientes=new ArrayList<Pedido>();
@@ -119,43 +154,63 @@ public class Vendedor {
     //Agregar un cliente a la lista
 
     public void addCliente(Cliente c){
+
+
+        //Agregarlo a la lista
         clientes.add(c);
+
+
     }
 
     //Eliminar un cliente
-    public void dropCliente(int idCliente){
+    public void dropCliente(String idCliente){
         int tam=clientes.size();
         Cliente c;
         for(int i=0;i<tam;i++){
             c=clientes.get(i);
-            if(c.getIdCliente()==idCliente){
-                c.setActivo(false);
+            if(c.getIdCliente().compareTo(idCliente)==0){
+                c.setActivo(false); //Modificarlo en la lista
+
             }
         }
 
     }
 
     //Modificar un cliente
-    public void alterCliente(int id, String nuevoNombre, String nuevaDir, String nuevoFono){
+    public Cliente alterCliente(String id, String nuevoNombre, String nuevaDir, String nuevoFono){
         int tam=clientes.size();
         Cliente c;
         for(int i=0;i<tam;i++){
             c=clientes.get(i);
-            if(c.getIdCliente()==id){
+            if(c.getIdCliente().compareTo(id)==0){
                 if(nuevoNombre.compareTo("")!=0)c.setNombre(nuevoNombre);
                 if(nuevaDir.compareTo("")!=0)c.setDireccion(nuevaDir);
                 if(nuevoFono.compareTo("")!=0)c.setTelefono(nuevoFono);
+                return c;
             }
         }
+        return null;
     }
 
     //Buscar un cliente de la lista
-    public Cliente getCliente(int id){
+    public Cliente getCliente(String id){
         int tam=clientes.size();
         Cliente c;
         for(int i=0;i<tam;i++){
             c=clientes.get(i);
-            if(c.getIdCliente()==id){
+
+            if(c.getIdCliente().compareTo(id)==0){
+                return c;
+            }
+        }
+        return null;
+    }
+    public Cliente getClientePorNombre(String nombre){
+        int tam=clientes.size();
+        Cliente c;
+        for(int i=0;i<tam;i++){
+            c=clientes.get(i);
+            if(c.getNombre().compareTo(nombre)==0){
                 return c;
             }
         }
@@ -170,20 +225,22 @@ public class Vendedor {
         saldo=montoPedidos-montoCobrado;
     }
     //Hacer una entrega
-    public void hacerEntrega(int idPedido){
+    public void hacerEntrega(String idPedido){
         Pedido pedido=getPedido(idPedido);
-        pedido.setEntregado(true);
-        montoCobrado=montoCobrado+pedido.getPrecio();
-        saldo=montoPedidos-montoCobrado;
+        if(pedido!=null) {
+            pedido.setEntregado(true);
+            montoCobrado = montoCobrado + pedido.getPrecio();
+            saldo = montoPedidos - montoCobrado;
+        }
     }
 
     //Buscar un pedido
-    public Pedido getPedido(int idPedido){
+    public Pedido getPedido(String idPedido){
         Pedido pedido;
         int tam=pedidos.size();
         for(int i=0;i<tam;i++){
             pedido=pedidos.get(i);
-            if(pedido.getIdPedido()==idPedido){
+            if(pedido.getIdPedido().compareTo(idPedido)==0){
                 return pedido;
             }
         }

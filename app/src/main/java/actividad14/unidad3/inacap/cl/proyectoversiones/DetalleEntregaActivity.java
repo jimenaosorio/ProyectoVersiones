@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ import clases.Vendedor;
 
 public class DetalleEntregaActivity extends AppCompatActivity {
     private String idVendedorStr;
-    private int idPedido;
+    private String idPedido;
     private Vendedor vendedor;
     private Pedido pedido;
     private ArrayAdapter<String> adapter1;
@@ -32,11 +33,13 @@ public class DetalleEntregaActivity extends AppCompatActivity {
         //Recuperar el pedido
         Bundle extras=getIntent().getExtras();
         idVendedorStr=extras.getString("id_vendedor");
-        int idVendedor=Integer.parseInt(idVendedorStr);
+
         ListaVendedores listaVendedores=ListaVendedores.getInstancia();
-        vendedor=listaVendedores.getVendedor(idVendedor);
-        idPedido=Integer.parseInt(extras.getString("id_pedido"));
-        pedido=vendedor.getPedido(idPedido);
+        vendedor=listaVendedores.getVendedor(idVendedorStr);
+        idPedido=extras.getString("id_pedido");
+        pedido=listaVendedores.getPedidoEntregado(vendedor,idPedido);
+
+
 
         //Tabla de datos del pedido
         GridView gvDatosPedidos=(GridView)findViewById(R.id.gvDatosPedido);

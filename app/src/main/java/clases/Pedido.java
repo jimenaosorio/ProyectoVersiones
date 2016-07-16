@@ -6,21 +6,33 @@ import java.util.ArrayList;
  * Created by Jimena on 27-06-2016.
  */
 public class Pedido {
-    private int idPedido;
+    private String idPedido;
     private Cliente cliente;
     private ArrayList<DetallePedido> detalles;
     private String fechaEntrega;
     private int precio;
     private boolean entregado=false;
-    private static int cuenta=0; //para generar los ID
+    private Vendedor vendedor;
 
-    public Pedido(){
-        cuenta++;
-        idPedido=cuenta;
+
+    public Pedido(){}
+
+    public Pedido(Cliente cliente, String fechaEntrega, int precio, Vendedor vendedor){
+        this.idPedido=idPedido;
+        this.cliente=cliente;
+        this.fechaEntrega=fechaEntrega;
+        this.precio=precio;
+        this.vendedor=vendedor;
+    }
+    public Pedido(String idPedido, Cliente cliente, String fechaEntrega, int precio){
+        this.idPedido=idPedido;
+        this.cliente=cliente;
+        this.fechaEntrega=fechaEntrega;
+        this.precio=precio;
     }
     //Getters y setters
 
-    public int getIdPedido() {
+    public String getIdPedido() {
         return idPedido;
     }
 
@@ -62,6 +74,18 @@ public class Pedido {
 
     public void setEntregado(boolean entregado) {
         this.entregado = entregado;
+    }
+
+    public void setIdPedido(String idPedido) {
+        this.idPedido = idPedido;
+    }
+
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
     }
 
     @Override

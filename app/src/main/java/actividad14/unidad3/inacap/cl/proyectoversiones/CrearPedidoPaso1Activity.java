@@ -20,8 +20,8 @@ import clases.Vendedor;
 public class CrearPedidoPaso1Activity extends AppCompatActivity {
     private String idVendedorStr;
     private Vendedor vendedor;
-    private ArrayAdapter<Cliente> adapter;
-
+    private ArrayAdapter<String> adapter;
+    ArrayList<Cliente> clientes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,22 +31,21 @@ public class CrearPedidoPaso1Activity extends AppCompatActivity {
         Bundle extras=getIntent().getExtras();
         idVendedorStr=extras.getString("id_vendedor");
 
-        int idVendedor=0;
-        try {
-            idVendedor = Integer.valueOf(idVendedorStr);
 
-        }catch(NumberFormatException e){
-            Toast.makeText(CrearPedidoPaso1Activity.this,"El vendedor no está registrado", Toast.LENGTH_SHORT);
-        }
         //Recuperar el vendedor
         ListaVendedores listaVendedores=ListaVendedores.getInstancia();
-        vendedor=listaVendedores.getVendedor(idVendedor);
+        vendedor=listaVendedores.getVendedor(idVendedorStr);
         //Recuperar los clientes
-        ArrayList<Cliente> clientes = vendedor.getClientes();
+        clientes = vendedor.getClientes();
+        ArrayList<String> nombresClientes=new ArrayList<String>();
+        int tamCli=clientes.size();
+        for(int i=0;i<tamCli;i++){
+            nombresClientes.add(clientes.get(i).getNombre());
+        }
         //Rellenar el spinner
         Spinner spinClientes=(Spinner)findViewById(R.id.spinClientes);
         if(clientes!=null){
-            adapter = new ArrayAdapter<Cliente>(getApplicationContext(), android.R.layout.simple_spinner_item, clientes);
+            adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, nombresClientes);
             spinClientes.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 
@@ -71,15 +70,13 @@ public class CrearPedidoPaso1Activity extends AppCompatActivity {
         //Leer el cliente seleccionado
         Spinner spinClientes=(Spinner)findViewById(R.id.spinClientes);
         //Recuperar el id del cliente
-        String datosCliente=spinClientes.getSelectedItem().toString();
-        String idStr=datosCliente.substring(1,4);
-        int idCliente=0;
-        try{
-            idCliente=Integer.parseInt(idStr);
-            Toast.makeText(CrearPedidoPaso1Activity.this,"ID Cliente="+idStr,Toast.LENGTH_SHORT).show();
-        }catch (NumberFormatException e){
-            Toast.makeText(CrearPedidoPaso1Activity.this,"Formato de ID incorrecto",Toast.LENGTH_SHORT).show();
-        }
+        String nombreCliente=spinClientes.getSelectedItem().toString();
+        int tam=clientes.size();
+        String idCliente="";
+        Cliente c=vendedor.getClientePorNombre(nombreCliente);
+        idCliente=c.getIdCliente();
+
+
         //Reenviar
         Intent intent=new Intent(CrearPedidoPaso1Activity.this,CrearPedidoPaso2Activity.class);
         intent.putExtra("id_vendedor",idVendedorStr);

@@ -21,11 +21,12 @@ import clases.Vendedor;
 
 public class VerDetallePedidoActivity extends AppCompatActivity {
     private String idVendedorStr;
-    private int idPedido;
+    private String idPedido;
     private Vendedor vendedor;
     private Pedido pedido;
     private ArrayAdapter<String> adapter1;
     private ArrayAdapter<String> adapter2;
+    private ListaVendedores listaVendedores;
 
 
     @Override
@@ -35,11 +36,20 @@ public class VerDetallePedidoActivity extends AppCompatActivity {
         //Recuperar el pedido
         Bundle extras=getIntent().getExtras();
         idVendedorStr=extras.getString("id_vendedor");
-        int idVendedor=Integer.parseInt(idVendedorStr);
-        ListaVendedores listaVendedores=ListaVendedores.getInstancia();
-        vendedor=listaVendedores.getVendedor(idVendedor);
-        idPedido=extras.getInt("id_pedido");
-        pedido=vendedor.getPedido(idPedido);
+
+        listaVendedores=ListaVendedores.getInstancia();
+        vendedor=listaVendedores.getVendedor(idVendedorStr);
+        idPedido=extras.getString("id_pedido");
+        ArrayList<Pedido>pedidos=listaVendedores.getPedidosPendientes(vendedor);
+        int tam=pedidos.size();
+        Pedido p=null;
+        for(int i=0;i<tam;i++){
+            p=pedidos.get(i);
+            if(p.getIdPedido().compareTo(idPedido)==0){
+                pedido=p;
+            }
+        }
+
 
         //Tabla de datos del pedido
         GridView gvDatosPedido=(GridView)findViewById(R.id.gvDatosPedido);
@@ -84,13 +94,15 @@ public class VerDetallePedidoActivity extends AppCompatActivity {
         datos2.add("Código Prod.");
         datos2.add("Nombre");
         datos2.add("Cantidad");
-        int tam=detallePedido.size();
-        for(int i=0;i<tam;i++){
+        int tamD=detallePedido.size();
+
+        for(int i=0;i<tamD;i++){
             DetallePedido detalle=detallePedido.get(i);
             datos2.add(String.valueOf(detalle.getProducto().getCodigo()));
             datos2.add(detalle.getProducto().getNombreProducto());
             datos2.add(String.valueOf(detalle.getCantidad()));
         }
+
         //Tabla de detalle
         adapter2=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item,datos2);
         gvDetalle.setAdapter(adapter2);
@@ -108,7 +120,8 @@ public class VerDetallePedidoActivity extends AppCompatActivity {
 
     }
     public void registrarEntrega(){
-        vendedor.hacerEntrega(idPedido);
+        //vendedor.hacerEntrega(idPedido);
+        listaVendedores.hacerEntrga(vendedor,pedido);
         Toast.makeText(VerDetallePedidoActivity.this,"Entrega registrada",Toast.LENGTH_SHORT).show();
         Intent intent=new Intent(VerDetallePedidoActivity.this, MenuPedidosActivity.class);
         intent.putExtra("id_vendedor",idVendedorStr);

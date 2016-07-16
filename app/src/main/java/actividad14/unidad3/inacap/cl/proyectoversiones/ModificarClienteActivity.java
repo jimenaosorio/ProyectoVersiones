@@ -32,9 +32,9 @@ public class ModificarClienteActivity extends AppCompatActivity {
         Bundle extras=getIntent().getExtras();
         idVendedorStr=extras.getString("id_vendedor");
         listaVendedores=ListaVendedores.getInstancia();
-        vendedor=listaVendedores.getVendedor(Integer.parseInt(idVendedorStr));
+        vendedor=listaVendedores.getVendedor(idVendedorStr);
         //Recuperar el cliente
-        int idCliente=extras.getInt("id_cliente");
+        String idCliente=extras.getString("id_cliente");
         cliente=vendedor.getCliente(idCliente);
         //Mostrar los datos
         TextView txtId=(TextView)findViewById(R.id.txtIdClienteModificar);
@@ -66,14 +66,17 @@ public class ModificarClienteActivity extends AppCompatActivity {
     }
     public void modificar(){
         TextView txtId=(TextView) findViewById(R.id.txtIdClienteModificar);
-        int id=Integer.parseInt(txtId.getText().toString());
+        String id=txtId.getText().toString();
         EditText txtNombre=(EditText)findViewById(R.id.txtNombreClienteModificar);
         String nombre=txtNombre.getText().toString();
         EditText txtDir=(EditText)findViewById(R.id.txtDireccionClienteModificar);
         String direccion=txtDir.getText().toString();
         EditText txtTel=(EditText)findViewById(R.id.txtTelefonoClienteModificar);
         String tel=txtTel.getText().toString();
-        vendedor.alterCliente(id,nombre,direccion,tel);
+        //Modificarlo en la lista
+        Cliente cliente=vendedor.alterCliente(id,nombre,direccion,tel);
+        //Modificarlo en la base de datos
+        listaVendedores.alterCliente(cliente);
         volver();
 
     }

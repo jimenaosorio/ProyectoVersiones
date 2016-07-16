@@ -34,7 +34,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import clases.ListaVendedores;
+import database.OperacionesBaseDatos;
+import database.ProductosDataSource;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -48,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
     private ListaVendedores listaVendedores;
+    private static OperacionesBaseDatos dataSource;
 
 
     /**
@@ -69,15 +74,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     //Constructor para cargar los usuarios
     public LoginActivity(){
-        listaVendedores=ListaVendedores.getInstancia();
-        DUMMY_CREDENTIALS=listaVendedores.getUsuariosYPasswords();
 
+
+
+    }
+    public static OperacionesBaseDatos getDataSource(){
+        return dataSource;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+//Borrar la base de datos
+ //      getApplicationContext().deleteDatabase("productosfrescos.db");
+
+        dataSource=OperacionesBaseDatos.getInstancia(this); //Base de datos
+
+
+        listaVendedores=ListaVendedores.getInstancia();
+
+        DUMMY_CREDENTIALS=listaVendedores.getUsuariosYPasswords();
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -350,16 +369,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 EditText txtPassword=(EditText)findViewById(R.id.password);
                 //Recuperar la lista de vendedores
                 ListaVendedores vendedores=ListaVendedores.getInstancia();
+
+
+
                 //     Toast.makeText(LoginActivity.this,"vendedor:"+txtLogin.getText(),Toast.LENGTH_SHORT).show();
 
-                int idV=vendedores.validarLogin(txtLogin.getText().toString(),txtPassword.getText().toString());
-                if(idV>0) {
+                String idV=vendedores.validarLogin(txtLogin.getText().toString(),txtPassword.getText().toString());
+               // Toast.makeText(LoginActivity.this,"ID="+idV,Toast.LENGTH_SHORT).show();
+
+                if(idV.length()>0) {
                     Toast.makeText(LoginActivity.this, "Usuario y contraseña correctos", Toast.LENGTH_SHORT).show();
                     /****   REENVIAR  *****/
-                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+
+                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
 
 
-                    intent.putExtra("id_vendedor", String.valueOf(idV)); //pasar el id del vendedor al otro activity
+                    intent.putExtra("id_vendedor", idV); //pasar el id del vendedor al otro activity
                     LoginActivity.this.startActivity(intent);
                 }else{
                     Toast.makeText(LoginActivity.this,"El vendedor no está registrado",Toast.LENGTH_SHORT).show();
@@ -369,6 +394,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
+
         }
 
         @Override

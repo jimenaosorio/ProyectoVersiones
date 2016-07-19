@@ -8,36 +8,56 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
 
-    tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.MenuActivity">
+    tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.MenuActivity"
+    android:background="@drawable/sky_with_clouds_page">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-        android:layout_alignParentTop="true"
-        android:weightSum="1">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
 
-        <Button
+            android:layout_alignParentTop="true"
+            android:weightSum="1">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clientes"
+                android:id="@+id/cmdClientes"
+                android:layout_weight="0.29"
+                android:background="@drawable/boton2" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pedidos"
+                android:id="@+id/cmdPedidos"
+                android:layout_weight="0.27"
+                android:background="@drawable/boton2" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Salir"
+                android:id="@+id/cmdSalir"
+                android:layout_weight="0.29"
+                android:background="@drawable/boton2" />
+        </LinearLayout>
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clientes"
-            android:id="@+id/cmdClientes"
-            android:layout_weight="0.29" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pedidos"
-            android:id="@+id/cmdPedidos"
-            android:layout_weight="0.27" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Salir"
-            android:id="@+id/cmdSalir"
-            android:layout_weight="0.29" />
+            android:id="@+id/imageView"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/portada" />
     </LinearLayout>
 
 </RelativeLayout>

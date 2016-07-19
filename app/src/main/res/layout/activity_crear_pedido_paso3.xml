@@ -9,7 +9,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
 
 
-    tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.CrearPedidoPaso3Activity">
+    tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.CrearPedidoPaso3Activity"
+    android:background="@drawable/sky_with_clouds_page">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -36,7 +37,8 @@
             android:layout_height="wrap_content"
             android:text="Ingresar Pedido"
             android:id="@+id/cmdIngresarPedido"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/naranjo" />
 
     </LinearLayout>
 

@@ -43,10 +43,10 @@ public class ListaVendedores {
         dataSource= LoginActivity.getDataSource(); //Leer la BD
 
 
-        /************************************/
-        /*Llenar la base con los datos iniciales*/
-        //datosInicales();
-        /**********************************/
+        /*****************************************************/
+        /******* Llenar la base con los datos iniciales ******/
+        datosInicales();
+        /****************************************************/
         registrosVendedores=dataSource.getVendedores(); //Leer tabla vendedores
         if(registrosVendedores!=null) {
             while (registrosVendedores.moveToNext()) { //Recorrer la tabla de vendedores

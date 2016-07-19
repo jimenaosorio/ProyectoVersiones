@@ -87,8 +87,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//Borrar la base de datos
- //      getApplicationContext().deleteDatabase("productosfrescos.db");
+        /******************* Dejar en comentario la segunda vez que se ejecute ********************************/
+                        //Borrar la base de datos
+       getApplicationContext().deleteDatabase("productosfrescos.db");
+
+        /*****************************************************************************************************/
 
         dataSource=OperacionesBaseDatos.getInstancia(this); //Base de datos
 

@@ -8,7 +8,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
 
-    tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.ListaClientesActivity">
+    tools:context="actividad14.unidad3.inacap.cl.proyectoversiones.ListaClientesActivity"
+    android:background="@drawable/sky_with_clouds_page">
 
     <LinearLayout
         android:id="@+id/Usuarios"
@@ -33,7 +34,7 @@
         </RadioGroup>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -41,25 +42,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nuevo"
-                android:id="@+id/cmdNuevo" />
+                android:id="@+id/cmdNuevo"
+                android:background="@drawable/naranjo" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Eliminar"
-                android:id="@+id/cmdEliminar" />
+                android:id="@+id/cmdEliminar"
+                android:background="@drawable/naranjo" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Modificar"
-                android:id="@+id/cmdModificar" />
+                android:id="@+id/cmdModificar"
+                android:background="@drawable/naranjo" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Volver"
-                android:id="@+id/cmdVolver" />
+                android:id="@+id/cmdVolver"
+                android:background="@drawable/naranjo" />
         </LinearLayout>
 
     </LinearLayout>

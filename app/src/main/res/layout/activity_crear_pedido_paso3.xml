@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Paso 3: Detalle de Productos"
+            android:text="@string/titulo_paso3"
             android:id="@+id/textView13"
             android:layout_gravity="center_horizontal" />
 
@@ -35,7 +35,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ingresar Pedido"
+            android:text="@string/boton_ingresar_pedido"
             android:id="@+id/cmdIngresarPedido"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/naranjo" />

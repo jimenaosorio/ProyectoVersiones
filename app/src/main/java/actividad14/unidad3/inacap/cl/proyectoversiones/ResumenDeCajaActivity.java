@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Spinner;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import clases.ListaVendedores;
@@ -35,18 +36,29 @@ public class ResumenDeCajaActivity extends AppCompatActivity {
 
         vendedor=listaVendedores.getVendedor(idVendedorStr);
 
+        //Moneda
+        Double monto;
+        NumberFormat formato=NumberFormat.getCurrencyInstance();;
+        String salida;
+
         //GridView
         GridView gvResumenDeCaja=(GridView)findViewById(R.id.gvResumenDeCaja);
         ArrayList<String> datos=new ArrayList<String>();
-        datos.add("Monto Total Entregado");
+        datos.add(getResources().getString(R.string.monto_total_entregado)+": ");
         int totalEntregas=vendedor.getMontoCobrado();
-        datos.add(String.valueOf(totalEntregas));
-        datos.add("Monto Total Pedidos");
+        salida=formato.format(totalEntregas);
+        datos.add(salida);
+
+        datos.add(getResources().getString(R.string.monto_total_pedidos)+": ");
         int totalPedidos=vendedor.getMontoPedidos();
-        datos.add(String.valueOf(totalPedidos));
-        datos.add("Saldo");
+        salida=formato.format(totalPedidos);
+        datos.add(salida);
+
+        datos.add(getResources().getString(R.string.total)+": ");
         int saldo=vendedor.getSaldo();
-        datos.add(String.valueOf(saldo));
+        salida=formato.format(saldo);
+        datos.add(salida);
+
         adapter1=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item,datos);
         gvResumenDeCaja.setAdapter(adapter1);
         adapter1.notifyDataSetChanged();
@@ -56,7 +68,9 @@ public class ResumenDeCajaActivity extends AppCompatActivity {
         ArrayList<String> idPe=new ArrayList<String>();
         int cant=entregados.size();
 
+
         for(int i=0;i<cant;i++){
+
             idPe.add(String.valueOf(entregados.get(i).getCliente().getNombre()+","+entregados.get(i).getPrecio()+","+entregados.get(i).getFechaEntrega()));
         }
         Spinner spEntregas=(Spinner)findViewById(R.id.spEntregas);

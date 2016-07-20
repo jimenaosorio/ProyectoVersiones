@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Verificar Entrega"
+            android:text="@string/txt_verificar_entrega"
             android:id="@+id/textView17"
             android:layout_gravity="center_horizontal" />
 
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Seleccione el ID de la Entrega"
+            android:text="@string/txt_seleccione_entrega"
             android:id="@+id/textView18"
             android:layout_gravity="center_horizontal" />
 
@@ -51,7 +51,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Verificar"
+            android:text="@string/boton_verificar"
             android:id="@+id/cmdVerificar"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/naranjo" />
@@ -59,7 +59,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Volver"
+            android:text="@string/boton_volver"
             android:id="@+id/cmdVolver3"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/naranjo" />

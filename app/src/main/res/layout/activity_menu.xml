@@ -30,7 +30,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Clientes"
+                android:text="@string/boton_clientes"
                 android:id="@+id/cmdClientes"
                 android:layout_weight="0.29"
                 android:background="@drawable/boton2" />
@@ -38,7 +38,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pedidos"
+                android:text="@string/boton_pedidos"
                 android:id="@+id/cmdPedidos"
                 android:layout_weight="0.27"
                 android:background="@drawable/boton2" />
@@ -46,7 +46,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Salir"
+                android:text="@string/boton_salir"
                 android:id="@+id/cmdSalir"
                 android:layout_weight="0.29"
                 android:background="@drawable/boton2" />

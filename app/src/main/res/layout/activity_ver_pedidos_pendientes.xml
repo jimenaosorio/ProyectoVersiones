@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Seleccione el pedido a entregar"
+            android:text="@string/txt_seleccione_pedido"
             android:id="@+id/textView14"
             android:layout_gravity="center_horizontal" />
 
@@ -35,7 +35,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ver Detalle"
+            android:text="@string/boton_detalle"
             android:id="@+id/cmdVerPedidoPendiente"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/naranjo" />

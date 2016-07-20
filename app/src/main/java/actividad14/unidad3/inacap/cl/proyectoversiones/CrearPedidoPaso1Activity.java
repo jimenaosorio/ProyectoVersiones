@@ -50,7 +50,7 @@ public class CrearPedidoPaso1Activity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
 
         }else{
-            Toast.makeText(CrearPedidoPaso1Activity.this,"No posee clientes",Toast.LENGTH_SHORT).show();
+            Toast.makeText(CrearPedidoPaso1Activity.this,getResources().getString(R.string.vendedor_sin_clientes),Toast.LENGTH_SHORT).show();
         }
         //Botón siguiente
         Button cmdSiguiente1=(Button) findViewById(R.id.cmdSiguiente1);

@@ -2,16 +2,88 @@
     <string name="app_name">Productos Frescos S.A.</string>
     <string name="title_activity_login">Ingresar</string>
 
-    <!-- Strings related to login -->
+    <!-- Strings correspondientes al login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Contraseña</string>
-    <string name="action_sign_in">Ingresar o Registrarse</string>
+    <string name="action_sign_in">Ingresar</string>
     <string name="action_sign_in_short">Ingresar</string>
     <string name="error_invalid_email">Este email es incorrecto</string>
     <string name="error_invalid_password">La contraseña es muy corta</string>
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
     <string name="error_field_required">Este campo es obligatorio</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
+    <string name="permission_rationale">"Se necesitan permisos de contactos para proporcionar terminaciones de correo electrónico."
     </string>
+    <string name="usuario_pass_ok">Usuario y contraseña correctos</string>
+
+    <!--  Strings activity_menu  -->
+    <string name="boton_clientes">Clientes</string>
+    <string name="boton_pedidos">Pedidos</string>
+    <string name="boton_salir">Salir</string>
+
+    <!--  Strings activity_lista_clientes  -->
+    <string name="titulo_clientes">Clientes</string>
+    <string name="boton_cliente_nuevo">Nuevo</string>
+    <string name="boton_cliente_eliminar">Eliminar</string>
+    <string name="boton_cliente_modificar">Modificar</string>
+    <string name="boton_volver">Volver</string>
+    <string name="vendedor_sin_clientes">El vendedor no posee clientes</string>
+    <string name="eliminando_cliente">Eliminando cliente</string>
+
+    <!--  Strings activity_agregar_cliente  -->
+    <string name="titulo_cliente_nuevo">Nuevo Cliente</string>
+    <string name="nombre_cliente">Nombre Cliente</string>
+    <string name="direccion_cliente">Dirección</string>
+    <string name="telefono_cliente">Teléfono</string>
+    <string name="boton_agregar_cliente">Agregar Cliente</string>
+
+    <!--  Strings activity_modificar_cliente  -->
+    <string name="titulo_cliente_modificar">Modificar Cliente</string>
+    <string name="boton_modificar_cliente">Modificar</string>
+    <string name="boton_cancelar">Cancelar</string>
+
+    <!--  Strings activity_menu_pedidos  -->
+    <string name="boton_ingresar_pedido">Ingresar Pedido</string>
+    <string name="boton_registrar_entrega">Registrar Entrega</string>
+    <string name="boton_resumen_caja">Resumen de Caja</string>
+
+    <!--  Strings activity_crear_pedido_paso1  -->
+    <string name="titulo_paso1">Paso 1: Seleccione el cliente</string>
+    <string name="boton_siguiente">Siguiente</string>
+
+    <!--  Strings activity_crear_pedido_paso2  -->
+    <string name="titulo_paso2">Paso 2: Fecha de Entrega</string>
+
+    <!--  Strings activity_crear_pedido_paso3  -->
+    <string name="titulo_paso3">Paso 3: Detalle de Productos</string>
+    <string name="txt_seleccione">Seleccione:</string>
+    <string name="txt_producto">Producto</string>
+    <string name="txt_cantidad">Cantidad</string>
+    <string name="formato_numero_incorrecto">El formato del número es incorrecto</string>
+    <string name="pedido_ingresdo">Pedido ingresado</string>
+    <string name="cliente">cliente</string>
+    <string name="fecha_de_entrega">fecha de entrega</string>
+
+
+    <!--  Strings activity_ver_pedidos_pendientes  -->
+    <string name="txt_seleccione_pedido">Seleccione el pedido a entregar:</string>
+    <string name="boton_detalle">Ver Detalle</string>
+
+    <!--  Strings activity_ver_detalle_pedido  -->
+    <string name="txt_datos_pedido">Datos Pedido</string>
+    <string name="txt_detalle">Detalle</string>
+    <string name="id_pedido">ID Pedido</string>
+    <string name="fecha_entrega">Fecha de Entrega</string>
+    <string name="total">Total</string>
+    <string name="id_producto">ID Producto</string>
+    <string name="entrega_registrada">Entrega registrada</string>
+
+    <!--  Strings activity_resumen_de_caja  -->
+    <string name="txt_verificar_entrega">Verificar Entrega</string>
+    <string name="txt_seleccione_entrega">Seleccione la entrega</string>
+    <string name="boton_verificar">Verificar</string>
+    <string name="monto_total_entregado">Monto Total Entregado</string>
+    <string name="monto_total_pedidos">Monto Total Pedidos</string>
+    <string name="saldo">Saldo</string>
+    <!--  Strings activity_detalle_entrega  -->
+    <string name="boton_volver_pedidos">Volver a Pedidos</string>
 </resources>

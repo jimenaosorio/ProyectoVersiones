@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Paso 2: Fecha de Entrega:"
+            android:text="@string/titulo_paso2"
             android:id="@+id/textView11"
             android:layout_gravity="center_horizontal" />
 
@@ -36,7 +36,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Siguiente"
+            android:text="@string/boton_siguiente"
             android:id="@+id/cmdSiguiente2"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/naranjo" />

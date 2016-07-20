@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Datos Pedido"
+            android:text="@string/txt_datos_pedido"
             android:id="@+id/textView15"
             android:layout_gravity="center_horizontal" />
 
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Detalle"
+            android:text="@string/txt_detalle"
             android:id="@+id/textView16"
             android:layout_gravity="center_horizontal" />
 
@@ -53,7 +53,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Registrar Entrega"
+            android:text="@string/boton_registrar_entrega"
             android:id="@+id/cmdRegistrarEntrega"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/naranjo" />

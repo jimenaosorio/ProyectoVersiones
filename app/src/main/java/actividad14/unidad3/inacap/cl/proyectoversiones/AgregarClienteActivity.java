@@ -49,7 +49,7 @@ public class AgregarClienteActivity extends AppCompatActivity {
         String telefono=txtTelefonoNuevo.getText().toString();
         Cliente cliente=new Cliente(nombre,direccion,telefono,vendedor);
         cliente.setActivo(true);
-       // vendedor.addCliente(cliente);
+
         listaVendedores.addCliente(cliente,vendedor);
 
         //Devolver el id vendedor y volver al menú de clientes

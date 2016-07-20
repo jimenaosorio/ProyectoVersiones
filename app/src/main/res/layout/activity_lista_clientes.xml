@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:gravity="center_vertical|center_horizontal"
-            android:text="Clientes"
+            android:text="@string/titulo_clientes"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <RadioGroup
@@ -41,28 +41,28 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nuevo"
+                android:text="@string/boton_cliente_nuevo"
                 android:id="@+id/cmdNuevo"
                 android:background="@drawable/naranjo" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Eliminar"
+                android:text="@string/boton_cliente_eliminar"
                 android:id="@+id/cmdEliminar"
                 android:background="@drawable/naranjo" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Modificar"
+                android:text="@string/boton_cliente_modificar"
                 android:id="@+id/cmdModificar"
                 android:background="@drawable/naranjo" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Volver"
+                android:text="@string/boton_volver"
                 android:id="@+id/cmdVolver"
                 android:background="@drawable/naranjo" />
         </LinearLayout>

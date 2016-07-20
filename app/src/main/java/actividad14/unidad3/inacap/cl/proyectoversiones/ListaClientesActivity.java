@@ -57,7 +57,7 @@ public class ListaClientesActivity extends AppCompatActivity {
             ((RadioGroup) findViewById(R.id.radiogroup)).addView(ll);
         }
         else{
-            Toast.makeText(ListaClientesActivity.this,"El vendedor no tiene clientes ingresados",Toast.LENGTH_SHORT).show();
+            Toast.makeText(ListaClientesActivity.this,getResources().getString(R.string.vendedor_sin_clientes),Toast.LENGTH_SHORT).show();
         }
 
 
@@ -105,7 +105,7 @@ public class ListaClientesActivity extends AppCompatActivity {
     }
     public void eliminarCliente(){
         Cliente c=clienteSeleccionado();
-        Toast.makeText(ListaClientesActivity.this,"Eliminando Cliente: "+c.getNombre(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(ListaClientesActivity.this,getResources().getString(R.string.eliminando_cliente)+": "+c.getNombre(),Toast.LENGTH_SHORT).show();
         //Desactivarlo en la lista
         vendedor.dropCliente(c.getIdCliente());
         //Desactivarlo en la base de datos
@@ -131,7 +131,7 @@ public class ListaClientesActivity extends AppCompatActivity {
             RadioButton rdbtn =(RadioButton)findViewById(i*2);
             cliente=vendedor.getClientePorNombre(rdbtn.getText().toString());
             if(rdbtn.isChecked()){
-                Log.d("cliente","ID cliente="+cliente.getIdCliente());
+
                 return cliente;
             }
         }

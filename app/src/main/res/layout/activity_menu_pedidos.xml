@@ -19,7 +19,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ingresar Pedido"
+            android:text="@string/boton_ingresar_pedido"
             android:id="@+id/cmdIngresarPedido"
             android:layout_alignBaseline="@+id/cmdRegistrarEntrega"
             android:layout_alignBottom="@+id/cmdRegistrarEntrega"
@@ -31,7 +31,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Registrar Entrega"
+            android:text="@string/boton_registrar_entrega"
             android:id="@+id/cmdRegistrarEntrega"
             android:layout_alignBaseline="@+id/cmdResumenDeCaja"
             android:layout_alignBottom="@+id/cmdResumenDeCaja"
@@ -42,7 +42,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Resumen de Caja"
+            android:text="@string/boton_resumen_caja"
             android:id="@+id/cmdResumenDeCaja"
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/cmdRegistrarEntrega"
@@ -54,7 +54,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Volver"
+            android:text="@string/boton_volver"
             android:id="@+id/cmdVolver2"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/naranjo" />

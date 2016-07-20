@@ -375,13 +375,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
 
-                //     Toast.makeText(LoginActivity.this,"vendedor:"+txtLogin.getText(),Toast.LENGTH_SHORT).show();
-
                 String idV=vendedores.validarLogin(txtLogin.getText().toString(),txtPassword.getText().toString());
-               // Toast.makeText(LoginActivity.this,"ID="+idV,Toast.LENGTH_SHORT).show();
+
 
                 if(idV.length()>0) {
-                    Toast.makeText(LoginActivity.this, "Usuario y contraseña correctos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.usuario_pass_ok), Toast.LENGTH_SHORT).show();
                     /****   REENVIAR  *****/
 
                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);

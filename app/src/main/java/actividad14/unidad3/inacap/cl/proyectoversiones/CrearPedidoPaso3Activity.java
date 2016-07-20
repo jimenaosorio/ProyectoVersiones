@@ -14,6 +14,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import clases.Cliente;
@@ -63,13 +64,13 @@ public class CrearPedidoPaso3Activity extends AppCompatActivity {
             //Encabezados
             TableRow encabezado=new TableRow(this);
             TextView seleccione=new TextView(this);
-            seleccione.setText("Seleccione  ");
+            seleccione.setText(getResources().getString(R.string.txt_seleccione));
             encabezado.addView(seleccione);
             TextView prod=new TextView(this);
-            prod.setText("  Producto  ");
+            prod.setText("  "+getResources().getString(R.string.txt_producto)+"  ");
             encabezado.addView(prod);
             TextView cant=new TextView(this);
-            cant.setText("  Cantidad");
+            cant.setText("  "+getResources().getString(R.string.txt_cantidad));
             encabezado.addView(cant);
             tlDetalles.addView(encabezado);
 
@@ -132,7 +133,7 @@ public class CrearPedidoPaso3Activity extends AppCompatActivity {
                 try {
                     cant = Integer.parseInt(txtCant.getText().toString());
                 }catch (NumberFormatException e){
-                    Toast.makeText(CrearPedidoPaso3Activity.this,"Formato de cantidad incorrecto",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CrearPedidoPaso3Activity.this,getResources().getString(R.string.formato_numero_incorrecto),Toast.LENGTH_SHORT).show();
                 }
                 totalLinea=precio*cant;
                 totalPedido=totalPedido+totalLinea;
@@ -172,9 +173,19 @@ public class CrearPedidoPaso3Activity extends AppCompatActivity {
             listaVendedores.insertDetallePedido(dp);
         }
 
-        //Reenviar
+        //Mostrar datos del pedido
+        //Moneda
+        Double total=new Double(pedido.getPrecio());
+        NumberFormat formato;
+        String salidaTotal;
+        formato=NumberFormat.getCurrencyInstance();
+        salidaTotal=formato.format(total);
+        Toast.makeText(CrearPedidoPaso3Activity.this,getResources().getString(R.string.pedido_ingresdo)+", "+
+                getResources().getString(R.string.cliente)+ ": "+pedido.getCliente().getNombre() +", "+
+                getResources().getString(R.string.fecha_de_entrega)+ ": "+pedido.getFechaEntrega()+", " +
+                getResources().getString(R.string.total)+": "+salidaTotal,Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(CrearPedidoPaso3Activity.this,"Pedido ingresado, cliente: "+pedido.getCliente().getNombre()+", fecha de entrega: "+pedido.getFechaEntrega()+", Total: $"+pedido.getPrecio(),Toast.LENGTH_SHORT).show();
+        //Reenviar
         Intent intent=new Intent(CrearPedidoPaso3Activity.this,MenuPedidosActivity.class);
         intent.putExtra("id_vendedor",idVendedorStr);
         CrearPedidoPaso3Activity.this.startActivity(intent);
